@@ -186,7 +186,7 @@
             this.Home.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Home.Name = "Home";
             this.Home.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.Home.Size = new System.Drawing.Size(2923, 1387);
+            this.Home.Size = new System.Drawing.Size(2923, 1718);
             this.Home.TabIndex = 0;
             this.Home.Text = "Home";
             this.Home.UseVisualStyleBackColor = true;
@@ -561,7 +561,7 @@
             this.batchPrint.Location = new System.Drawing.Point(10, 63);
             this.batchPrint.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.batchPrint.Name = "batchPrint";
-            this.batchPrint.Size = new System.Drawing.Size(2923, 1387);
+            this.batchPrint.Size = new System.Drawing.Size(2923, 1718);
             this.batchPrint.TabIndex = 2;
             this.batchPrint.Text = "Batch Print";
             this.batchPrint.UseVisualStyleBackColor = true;
@@ -573,7 +573,7 @@
             this.panel14.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel14.Location = new System.Drawing.Point(0, 407);
             this.panel14.Name = "panel14";
-            this.panel14.Size = new System.Drawing.Size(2919, 867);
+            this.panel14.Size = new System.Drawing.Size(2919, 1198);
             this.panel14.TabIndex = 74;
             // 
             // dataGridView2
@@ -584,7 +584,7 @@
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowHeadersWidth = 102;
             this.dataGridView2.RowTemplate.Height = 40;
-            this.dataGridView2.Size = new System.Drawing.Size(1468, 867);
+            this.dataGridView2.Size = new System.Drawing.Size(1468, 1198);
             this.dataGridView2.TabIndex = 74;
             this.dataGridView2.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView2_CellMouseClick);
             // 
@@ -596,7 +596,7 @@
             this.resultdataGridView.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.resultdataGridView.Name = "resultdataGridView";
             this.resultdataGridView.RowHeadersWidth = 102;
-            this.resultdataGridView.Size = new System.Drawing.Size(1158, 867);
+            this.resultdataGridView.Size = new System.Drawing.Size(1158, 1198);
             this.resultdataGridView.TabIndex = 73;
             // 
             // panel13
@@ -604,7 +604,7 @@
             this.panel13.Controls.Add(this.btnStartPrint);
             this.panel13.Controls.Add(this.btnBatchPrint);
             this.panel13.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel13.Location = new System.Drawing.Point(0, 1274);
+            this.panel13.Location = new System.Drawing.Point(0, 1605);
             this.panel13.Name = "panel13";
             this.panel13.Size = new System.Drawing.Size(2919, 109);
             this.panel13.TabIndex = 73;
@@ -780,7 +780,7 @@
             this.tabAdjudication.Location = new System.Drawing.Point(10, 63);
             this.tabAdjudication.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.tabAdjudication.Name = "tabAdjudication";
-            this.tabAdjudication.Size = new System.Drawing.Size(2923, 1387);
+            this.tabAdjudication.Size = new System.Drawing.Size(2923, 1718);
             this.tabAdjudication.TabIndex = 4;
             this.tabAdjudication.Text = "Adjudication";
             // 
@@ -793,7 +793,7 @@
             this.panel8.Location = new System.Drawing.Point(1775, 700);
             this.panel8.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(1148, 452);
+            this.panel8.Size = new System.Drawing.Size(1148, 783);
             this.panel8.TabIndex = 2;
             // 
             // label43
@@ -840,7 +840,7 @@
             this.panel7.Location = new System.Drawing.Point(543, 700);
             this.panel7.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(1159, 452);
+            this.panel7.Size = new System.Drawing.Size(1159, 783);
             this.panel7.TabIndex = 1;
             // 
             // label42
@@ -1042,7 +1042,7 @@
             this.panel6.Controls.Add(this.button2);
             this.panel6.Controls.Add(this.button1);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel6.Location = new System.Drawing.Point(543, 1152);
+            this.panel6.Location = new System.Drawing.Point(543, 1483);
             this.panel6.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(2380, 235);
@@ -1090,7 +1090,7 @@
             this.panel5.Location = new System.Drawing.Point(0, 95);
             this.panel5.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(543, 1292);
+            this.panel5.Size = new System.Drawing.Size(543, 1623);
             this.panel5.TabIndex = 0;
             // 
             // button4
@@ -1349,7 +1349,7 @@
             this.reports.Location = new System.Drawing.Point(10, 63);
             this.reports.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.reports.Name = "reports";
-            this.reports.Size = new System.Drawing.Size(2923, 1387);
+            this.reports.Size = new System.Drawing.Size(2923, 1718);
             this.reports.TabIndex = 3;
             this.reports.Text = "Reports";
             this.reports.UseVisualStyleBackColor = true;

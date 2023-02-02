@@ -85,6 +85,7 @@
       <DependentUpon>mcrdataset.xsd</DependentUpon>
     </Compile>
     <Compile Include="Model\BirthCertificateDetails.cs" />
+    <Compile Include="Model\Declaration.cs" />
     <Compile Include="Model\GenerateQR.cs" />
     <Compile Include="Model\MCRConnection.cs" />
     <Compile Include="Model\MCRQueries.cs" />

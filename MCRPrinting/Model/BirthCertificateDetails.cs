@@ -8,7 +8,7 @@ namespace MCRPrinting.Model
 {
     public static class BirthCertificateDetails
     {
-        public static string BEN { get; set; }
+        public static string BEN { get; set; } = string.Empty;
         public static string Fullname { get; set; } = string.Empty;
         public static string regid { get; set; }
         public static string NationalID { get; set; } = string.Empty;

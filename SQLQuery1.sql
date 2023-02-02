@@ -1,1 +1,1 @@
-﻿select top 10 * from ChildDetail where ben<>''
+﻿select top 10 * from ChildDetail where ben<>''and brn<>'' and PersonId='' or brn='' and ben=''
