@@ -25,24 +25,13 @@ namespace MCRPrinting
         //string Constring = @"Data Source=10.45.80.51\mcr;Initial Catalog=MassReg;User ID=sa;Password=Password1";
         PrintDocument printDocument = new PrintDocument();
         
+
+        MCRQueries queries= new MCRQueries();
+        
         Declaration dec =  new Declaration();
 
         TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
 
-        //string BEN = string.Empty;
-        //string Fullname = string.Empty;
-        //string regid = string.Empty;
-        //string NationalID = string.Empty;
-        ////DateTime DateofBirth = DateTime.Now;
-        //string Sex = string.Empty;
-        //string PlaceofBirth = string.Empty;
-        //string NameofMother = string.Empty;
-        //string MotherNationality = string.Empty;
-        //string NameOfFather = string.Empty;
-        //string NationalityOfFather = string.Empty;
-        //DateTime DateofRegistration = DateTime.Now;
-        //string PlaceOfRegistration = string.Empty;
-        //string Placeofreg = string .Empty;
         string dtTA = string.Empty;
         string dtVillage = string.Empty;
         string dtDistrict = string.Empty;
@@ -54,28 +43,22 @@ namespace MCRPrinting
             this.Width = 1200;
             this.CenterToScreen();
 
+            if (PrinterModel.CheckPrinterStatus() != "Printer is ready")
+            {
+                lblPrintStatus.ForeColor = Color.Green;
+                lblPrintStatus.Text = PrinterModel.CheckPrinterStatus();
+            }
+            else
+            {
+                lblPrintStatus.ForeColor = Color.Red;
+                lblPrintStatus.Text = PrinterModel.CheckPrinterStatus();
+            }
+            
+
             tabControl1.TabPages.Remove(tabAdjudication);
         }
-        void LoadrecordsCountByDistrict()
-        {
-            using (SqlConnection con = new SqlConnection(Constring))
-            {
-                using (SqlCommand cmd = new SqlCommand("SELECT InformantDistrict,InformantTA,InformantVillage,COUNT(*) AS RECORDS FROM ChildDetail where InformantDistrict='"+DistrictCombox.Text+"' and ben<>'' and brn<>'' GROUP BY InformantDistrict,InformantTA,InformantVillage order by InformantDistrict,InformantTA,InformantVillage"))
-                {
-                    using (SqlDataAdapter sda = new SqlDataAdapter())
-                    {
-                        cmd.Connection = con;
-                        sda.SelectCommand = cmd;
-                        using (DataTable dt = new DataTable())
-                        {
-                            sda.Fill(dt);
-                            dataGridView2.DataSource = dt;
-                            dataGridView2.AutoGenerateColumns = false;
-                        }
-                    }
-                }
-            }
-        }
+        
+        
         void LoadRecordsCount()
         {
              using (SqlConnection con = new SqlConnection(Constring))
@@ -122,6 +105,13 @@ namespace MCRPrinting
 
         private void btnPrint_Click(object sender, EventArgs e)
         {
+            //printDocument.PrinterSettings.PrinterName = "";
+
+            if(printDocument.PrinterSettings.PrinterName != "Evolis Primacy")
+            {
+                MessageBox.Show("Printer not connected");
+            }
+
             printDocument.PrintPage += PrintDocumentOnPrintPage;
             printDocument.PrintController = new StandardPrintController();
             printDocument.DefaultPageSettings.Landscape = true;
@@ -139,7 +129,6 @@ namespace MCRPrinting
 
         private void DistrictCombox_SelectedValueChanged(object sender, EventArgs e)
         {
-            LoadrecordsCountByDistrict();
             LoadDistrictTotal();
             TACombox.Enabled = true;
             using (SqlConnection con = new SqlConnection(Constring))
@@ -156,6 +145,7 @@ namespace MCRPrinting
                 TACombox.DataSource = dt;
 
             }
+            dataGridView2.DataSource=queries.LoadrecordsCountByDistrict(DistrictCombox.Text);
         }
         private void TACombox_SelectedValueChanged(object sender, EventArgs e)
         {
@@ -174,12 +164,14 @@ namespace MCRPrinting
                 VillagecomBox.DisplayMember = "InformantVillage";
                 VillagecomBox.DataSource = dt;
             }
+            dataGridView2.DataSource = queries.LoadrecordsCountByTA(DistrictCombox.Text, TACombox.Text);
         }
 
         private void VillagecomBox_SelectedValueChanged(object sender, EventArgs e)
         {
             VillageTotal();
             LoadRecords();
+            dataGridView2.DataSource = queries.LoadrecordstByVillage(DistrictCombox.Text, TACombox.Text,VillagecomBox.Text);
         }
         public void LoadRecords()
         {
@@ -344,8 +336,13 @@ namespace MCRPrinting
                 {
                     using (SqlDataReader rdr = command.ExecuteReader())
                     {
+                        if(rdr.HasRows)
+                        {
+
+                        }
                         while (rdr.Read())
                         {
+                            
                             //DateTime.Now.ToString("dddd, dd MMMM yyyy");
                             BirthCertificateDetails.BEN = rdr[0].ToString();
                             BirthCertificateDetails.Fullname = rdr[2].ToString();
@@ -361,12 +358,13 @@ namespace MCRPrinting
 
                             //printDocument.PrintPage += PrintDocumentOnPrintPage;
                             //printDocument.Print();
-
+                            
 
                             printDocument.PrintPage += PrintDocumentOnPrintPage;
                             printDocument.PrintController = new StandardPrintController();
                             printDocument.DefaultPageSettings.Landscape = true;
                             printDocument.EndPrint += new PrintEventHandler(EndPrint);
+                           
                             printDocument.Print();
 
                         }
@@ -489,12 +487,12 @@ namespace MCRPrinting
             if (e.PrintAction == PrintAction.PrintToPrinter)
             {
                 //Console.WriteLine("Print job completed successfully");
-                MessageBox.Show("Print job completed successfully");
+                //MessageBox.Show("Print job completed successfully");
             }
             else
             {
                 //Console.WriteLine("Print job failed");
-                MessageBox.Show("Print job failed");
+                //MessageBox.Show("Print job failed");
             }
         }
 

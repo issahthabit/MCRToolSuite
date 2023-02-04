@@ -137,6 +137,7 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.label14 = new System.Windows.Forms.Label();
             this.reports = new System.Windows.Forms.TabPage();
+            this.lblPrintStatus = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.singlePrint.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -646,6 +647,7 @@
             // panel2
             // 
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel2.Controls.Add(this.lblPrintStatus);
             this.panel2.Controls.Add(this.txtSearchresults);
             this.panel2.Controls.Add(this.LblTotals);
             this.panel2.Controls.Add(this.label27);
@@ -1354,6 +1356,15 @@
             this.reports.Text = "Reports";
             this.reports.UseVisualStyleBackColor = true;
             // 
+            // lblPrintStatus
+            // 
+            this.lblPrintStatus.AutoSize = true;
+            this.lblPrintStatus.Location = new System.Drawing.Point(891, 263);
+            this.lblPrintStatus.Name = "lblPrintStatus";
+            this.lblPrintStatus.Size = new System.Drawing.Size(226, 46);
+            this.lblPrintStatus.TabIndex = 17;
+            this.lblPrintStatus.Text = "Print Status";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
@@ -1514,6 +1525,7 @@
         private System.Windows.Forms.DataGridView dataGridView2;
         private System.Windows.Forms.Button btnStartPrint;
         private System.Windows.Forms.TextBox txtSearchresults;
+        private System.Windows.Forms.Label lblPrintStatus;
     }
 }
 
