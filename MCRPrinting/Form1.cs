@@ -9,6 +9,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Printing;
 using System.Globalization;
+
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -21,8 +22,9 @@ namespace MCRPrinting
 {
     public partial class Form1 : Form
     {
+        //MCRConnection connection = new MCRConnection();
         string Constring = @"Data Source=issah\issah;Initial Catalog=MassReg;Persist Security Info=True;User ID=sa;Password=lengan1";
-        //string Constring = @"Data Source=10.45.80.51\mcr;Initial Catalog=MassReg;User ID=sa;Password=Password1";
+       //string Constring = @"Data Source=10.45.80.51\mcr;Initial Catalog=MassReg;User ID=sa;Password=Password1";
         PrintDocument printDocument = new PrintDocument();
         
 
@@ -45,62 +47,24 @@ namespace MCRPrinting
 
             if (PrinterModel.CheckPrinterStatus() != "Printer is ready")
             {
-                lblPrintStatus.ForeColor = Color.Green;
+                lblPrintStatus.ForeColor = Color.Red;
                 lblPrintStatus.Text = PrinterModel.CheckPrinterStatus();
             }
-            else
+            else if (PrinterModel.CheckPrinterStatus() == "Printer not Connected")
             {
                 lblPrintStatus.ForeColor = Color.Red;
+                lblPrintStatus.Text = PrinterModel.CheckPrinterStatus();
+            }
+
+
+            else
+            {
+                lblPrintStatus.ForeColor = Color.Green;
                 lblPrintStatus.Text = PrinterModel.CheckPrinterStatus();
             }
             
 
             tabControl1.TabPages.Remove(tabAdjudication);
-        }
-        
-        
-        void LoadRecordsCount()
-        {
-             using (SqlConnection con = new SqlConnection(Constring))
-            {
-                using (SqlCommand cmd = new SqlCommand("SELECT InformantDistrict,InformantTA,InformantVillage,COUNT(*) AS RECORDS FROM ChildDetail where InformantDistrict<>'4' and InformantDistrict<>'' GROUP BY InformantDistrict,InformantTA,InformantVillage order by InformantDistrict,InformantTA,InformantVillage"))
-                {
-                    using (SqlDataAdapter sda = new SqlDataAdapter())
-                    {
-                        cmd.Connection = con;
-                        sda.SelectCommand = cmd;
-                        using (DataTable dt = new DataTable())
-                        {
-                            sda.Fill(dt);
-                            dataGridView2.DataSource = dt;
-                        }
-                    }
-                }
-            }
-        }
-        void LoadDistrict()
-        {
-
-            DistrictCombox.SelectedValue = "Select District";
-
-            using (SqlConnection con = new SqlConnection(Constring))
-            {
-
-                con.Open();
-                SqlCommand cmd = new SqlCommand("select InformantDistrict from ChildDetail where InformantDistrict<>'' and InformantDistrict<>'4' group by InformantDistrict ", con);
-                SqlDataAdapter sda = new SqlDataAdapter(cmd);
-
-                DataTable dt = new DataTable();
-                sda.Fill(dt);
-
-                DistrictCombox.SelectedValue = "Select District";
-
-                DistrictCombox.ValueMember = "id";
-                DistrictCombox.DisplayMember = "InformantDistrict";
-                DistrictCombox.DataSource = dt;
-
-                con.Close();
-            }
         }
 
         private void btnPrint_Click(object sender, EventArgs e)
@@ -123,127 +87,43 @@ namespace MCRPrinting
         {
             DistrictCombox.Items.Clear();
             DistrictCombox.Items.Insert(0, "SELECT DISTRICT");
-            LoadDistrict();
-            LoadRecordsCount();
+
+            DistrictCombox.ValueMember = "id";
+            DistrictCombox.DisplayMember = "InformantDistrict";
+            DistrictCombox.DataSource = queries.LoadDistrict();
+
+            //LoadRecordsCount();
         }
 
         private void DistrictCombox_SelectedValueChanged(object sender, EventArgs e)
         {
-            LoadDistrictTotal();
+            //LoadDistrictTotal();
             TACombox.Enabled = true;
-            using (SqlConnection con = new SqlConnection(Constring))
-            {
+            TACombox.ValueMember = "id";
+            TACombox.DisplayMember = "InformantTA";
+            TACombox.DataSource = queries.LoadTA(DistrictCombox.Text);
 
-                con.Open();
-                SqlCommand cmd = new SqlCommand("select distinct InformantTA from ChildDetail where InformantDistrict='" + DistrictCombox.Text + "' and InformantTA<>''", con);
-                SqlDataAdapter sda = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                sda.Fill(dt);
-                con.Close();
-                TACombox.ValueMember = "id";
-                TACombox.DisplayMember = "InformantTA";
-                TACombox.DataSource = dt;
-
-            }
             dataGridView2.DataSource=queries.LoadrecordsCountByDistrict(DistrictCombox.Text);
         }
         private void TACombox_SelectedValueChanged(object sender, EventArgs e)
         {
-            TATotal();
+            queries.LoadTATotal(DistrictCombox.Text,TACombox.Text);
             VillagecomBox.Enabled = true;
-            using (SqlConnection con = new SqlConnection(Constring))
-            {
-                con.Open();
-                SqlCommand cmd = new SqlCommand("select distinct InformantVillage from ChildDetail where InformantTA='" + TACombox.Text + "' order by InformantVillage asc", con);
-                SqlDataAdapter sda = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                sda.Fill(dt);
-                con.Close();
-                VillagecomBox.Text = "Select Village";
-                VillagecomBox.ValueMember = "id";
-                VillagecomBox.DisplayMember = "InformantVillage";
-                VillagecomBox.DataSource = dt;
-            }
+
+            VillagecomBox.Text = "Select Village";
+            VillagecomBox.ValueMember = "id";
+            VillagecomBox.DisplayMember = "InformantVillage";
+            VillagecomBox.DataSource = queries.LoadVillages(DistrictCombox.Text, TACombox.Text);
             dataGridView2.DataSource = queries.LoadrecordsCountByTA(DistrictCombox.Text, TACombox.Text);
         }
 
         private void VillagecomBox_SelectedValueChanged(object sender, EventArgs e)
         {
-            VillageTotal();
-            LoadRecords();
+            queries.LoadVillageTotal(DistrictCombox.Text, TACombox.Text, VillagecomBox.Text);
+            queries.LoadRecords(TACombox.Text, VillagecomBox.Text);
             dataGridView2.DataSource = queries.LoadrecordstByVillage(DistrictCombox.Text, TACombox.Text,VillagecomBox.Text);
         }
-        public void LoadRecords()
-        {
-            using (SqlConnection con = new SqlConnection(Constring))
-            {
-                using (SqlCommand cmd = new SqlCommand("select ben,Firstname,Othernames,Surname,DateOfBirth,MotherFirstname,MotherOthernames,MotherSurname,FatherFirstname,FatherOthernames,FatherSurname from ChildDetail where InformantTA='" + TACombox.Text+"' and InformantVillage='" + VillagecomBox.Text + "' and ben<>'' and RecStatus=4 and brn<>''  order by Surname,Firstname asc"))
-                {
-                    using (SqlDataAdapter sda = new SqlDataAdapter())
-                    {
-                        cmd.Connection = con;
-                        sda.SelectCommand = cmd;
-                        using (DataTable dt = new DataTable())
-                        {
-                            sda.Fill(dt);
-                            resultdataGridView.DataSource = dt;
-                        }
-                    }
-                }
-            }
-        }
-        void LoadDistrictTotal()
-        {
-            using (SqlConnection con = new SqlConnection(Constring))
-            {
-
-                con.Open();
-                string query = "select count(*) from ChildDetail where InformantDistrict='" + DistrictCombox.Text + "'";
-                using (SqlCommand cmd = new SqlCommand(query, con))
-                {
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        LblTotals.Text = reader[0].ToString();
-                    }
-                }
-                con.Close();
-            }
-        }
-        void TATotal()
-        {
-            using (SqlConnection con = new SqlConnection(Constring))
-            {
-                con.Open();
-                string query = "select count(*) from ChildDetail where InformantTA='" + TACombox.Text + "' and InformantDistrict='" + DistrictCombox.Text + "'";
-                using (SqlCommand cmd = new SqlCommand(query, con))
-                {
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        LblTotals.Text = reader[0].ToString();
-                    }
-                }
-                con.Close();
-            }
-        }
-        void VillageTotal()
-        {
-            using (SqlConnection con = new SqlConnection(Constring))
-            {
-                con.Open();
-                string query = "select count(*) from ChildDetail where InformantVillage='" + VillagecomBox.Text + "' and InformantTA='" + TACombox.Text + "' and InformantDistrict='" + DistrictCombox.Text + "'";
-                using (SqlCommand cmd = new SqlCommand(query, con))
-                {
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        LblTotals.Text = reader[0].ToString();
-                    }
-                }
-                con.Close();
-            }
-        }
+        
         private void PrintDocumentOnPrintPage(object sender, PrintPageEventArgs e)
         {
             GenerateQrCode(BirthCertificateDetails.BEN);
@@ -371,9 +251,7 @@ namespace MCRPrinting
                     }
                 }
                 cons.Close();
-            }
-                        
-                    
+            }      
         }
 
         private void btnBatchPrint_Click(object sender, EventArgs e)

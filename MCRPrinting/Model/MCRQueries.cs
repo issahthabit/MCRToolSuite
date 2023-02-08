@@ -8,18 +8,25 @@ using System.Threading.Tasks;
 using MCRPrinting.Model;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Drawing.Printing;
+using System.Net;
+using System.Globalization;
+using System.Reflection.Emit;
+using System.Security.Cryptography;
 
 namespace MCRPrinting.Model
 {
     public class MCRQueries
     {
         MCRConnection connection = new MCRConnection();
+        MCRModel model = new MCRModel();
+        PrintDocument printDocument = new PrintDocument();
 
         public DataTable LoadRecordsByTAandVillage(string TA,string village)
         {
             DataTable dt = new DataTable();
             SqlConnection con = new SqlConnection(connection.GetDBConnection());
-            SqlCommand cmd = new SqlCommand("select ben,Firstname,Othernames,Surname,DateOfBirth,MotherFirstname,MotherOthernames,MotherSurname,FatherFirstname,FatherOthernames,FatherSurname from ChildDetail where InformantTA='" + TA + "' and InformantVillage='" + village + "' and ben<>'' and RecStatus=4 and brn<>''  order by Surname,Firstname asc",con);
+            SqlCommand cmd = new SqlCommand("select ben,Firstname,Othernames,Surname,DateOfBirth,MotherFirstname,MotherOthernames,MotherSurname,FatherFirstname,FatherOthernames,FatherSurname from ChildDetail where InformantTA='" + TA + "' and InformantVillage='" + village + "' and ben<>'' and RecStatus=4 and brn<>'' and Edituser not in "+model.GetAdmins()+"  order by Surname,Firstname asc",con);
             SqlDataAdapter sda = new SqlDataAdapter();
             cmd.Connection = con;
             sda.SelectCommand = cmd;
@@ -58,7 +65,7 @@ namespace MCRPrinting.Model
                 con.Close();
             }
         }
-        void UpdateRecords(string personid)
+        public void UpdateRecords(string personid)
         {
             using (SqlConnection con = new SqlConnection(connection.GetDBConnection()))
             {
@@ -74,7 +81,7 @@ namespace MCRPrinting.Model
         public DataTable LoadrecordsCountByDistrict(string District)
         {
             SqlConnection con = new SqlConnection(connection.GetDBConnection());
-            SqlCommand cmd = new SqlCommand("SELECT InformantDistrict,InformantTA,InformantVillage,COUNT(*) AS RECORDS FROM ChildDetail where InformantDistrict='" + District + "' and ben<>'' and brn<>'' GROUP BY InformantDistrict,InformantTA,InformantVillage order by InformantDistrict,InformantTA,InformantVillage");
+            SqlCommand cmd = new SqlCommand("SELECT InformantDistrict,InformantTA,InformantVillage,COUNT(*) AS RECORDS FROM ChildDetail where InformantDistrict='" + District + "' and ben<>'' and brn<>'' and PlaceOfRegistrationId<>'' and Edituser not in "+model.GetAdmins()+" GROUP BY InformantDistrict,InformantTA,InformantVillage order by InformantDistrict,InformantTA,InformantVillage");
             SqlDataAdapter sda = new SqlDataAdapter();
             cmd.Connection = con;
             sda.SelectCommand = cmd;
@@ -85,7 +92,7 @@ namespace MCRPrinting.Model
         public DataTable LoadrecordsCountByTA(string District,string TA)
         {
             SqlConnection con = new SqlConnection(connection.GetDBConnection());
-            SqlCommand cmd = new SqlCommand("SELECT InformantDistrict,InformantTA,InformantVillage,COUNT(*) AS RECORDS FROM ChildDetail where InformantDistrict='" + District + "' AND InformantTA='"+TA+"' and ben<>'' and brn<>'' GROUP BY InformantDistrict,InformantTA,InformantVillage order by InformantDistrict,InformantTA,InformantVillage");
+            SqlCommand cmd = new SqlCommand("SELECT InformantDistrict,InformantTA,InformantVillage,COUNT(*) AS RECORDS FROM ChildDetail where InformantDistrict='" + District + "' AND InformantTA='"+TA+ "' and ben<>'' and brn<>'' and PlaceOfRegistrationId<>'' GROUP BY InformantDistrict,InformantTA,InformantVillage order by InformantDistrict,InformantTA,InformantVillage");
             SqlDataAdapter sda = new SqlDataAdapter();
             cmd.Connection = con;
             sda.SelectCommand = cmd;
@@ -96,7 +103,7 @@ namespace MCRPrinting.Model
         public DataTable LoadrecordstByVillage(string District,string TA, string Village)
         {
             SqlConnection con = new SqlConnection(connection.GetDBConnection());
-            SqlCommand cmd = new SqlCommand("SELECT InformantDistrict,InformantTA,InformantVillage,COUNT(*) AS RECORDS FROM ChildDetail where InformantDistrict='" + District + "' AND InformantTA='"+TA+ "' AND InformantVillage='"+Village+"' and ben<>'' and brn<>'' GROUP BY InformantDistrict,InformantTA,InformantVillage order by InformantDistrict,InformantTA,InformantVillage");
+            SqlCommand cmd = new SqlCommand("SELECT InformantDistrict,InformantTA,InformantVillage,COUNT(*) AS RECORDS FROM ChildDetail where InformantDistrict='" + District + "' AND  PlaceOfRegistrationId<>'' and InformantTA='" + TA+ "' AND InformantVillage='"+Village+"' and ben<>'' and brn<>''  and PlaceOfRegistrationId<>'' GROUP BY InformantDistrict,InformantTA,InformantVillage order by InformantDistrict,InformantTA,InformantVillage");
             SqlDataAdapter sda = new SqlDataAdapter();
             cmd.Connection = con;
             sda.SelectCommand = cmd;
@@ -104,5 +111,131 @@ namespace MCRPrinting.Model
             sda.Fill(dt);
             return dt;
         }
+        public DataTable LoadDistrict()
+        {
+            DataTable dt = new DataTable();
+            using (SqlConnection con = new SqlConnection(connection.GetDBConnection()))
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand("select InformantDistrict from ChildDetail where InformantDistrict<>'' and InformantDistrict<>'4' and brn<>'' and ben<>'' and PlaceOfRegistrationId<>'' group by InformantDistrict ", con);
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                
+                sda.Fill(dt);
+                con.Close();
+            }
+            return dt;
+        }
+        void LoadRecordsCount()
+        {
+            using (SqlConnection con = new SqlConnection(connection.GetDBConnection()))
+            {
+                using (SqlCommand cmd = new SqlCommand("SELECT InformantDistrict,InformantTA,InformantVillage,COUNT(*) AS RECORDS FROM ChildDetail where InformantDistrict<>'4' and InformantDistrict<>'' and PlaceOfRegistrationId<>'' GROUP BY InformantDistrict,InformantTA,InformantVillage order by InformantDistrict,InformantTA,InformantVillage"))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter())
+                    {
+                        cmd.Connection = con;
+                        sda.SelectCommand = cmd;
+                        using (DataTable dt = new DataTable())
+                        {
+                            sda.Fill(dt);
+                        }
+                    }
+                }
+            }
+        }
+        public string LoadDistrictTotal(string district)
+        {
+            string districts;
+            SqlConnection con = new SqlConnection(connection.GetDBConnection());
+            con.Open();
+            string query = "select count(*) from ChildDetail where InformantDistrict='" + district + "'";
+            SqlCommand cmd = new SqlCommand(query, con);
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                districts  = reader[0].ToString();
+            }
+            con.Close();
+            return district;
+        }
+        public string LoadTATotal(string district, string TA)
+        {
+            string districts;
+            SqlConnection con = new SqlConnection(connection.GetDBConnection());
+            con.Open();
+            string query = "select count(*) from ChildDetail where InformantDistrict = '" + district + "' and InformantTA = '"+TA+"'";
+            SqlCommand cmd = new SqlCommand(query, con);
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                districts = reader[0].ToString();
+            }
+            con.Close();
+            return district;
+        }
+        public string LoadVillageTotal(string district, string TA, string Village)
+        {
+            string districts;
+            SqlConnection con = new SqlConnection(connection.GetDBConnection());
+            con.Open();
+            string query = "select count(*) from ChildDetail where InformantDistrict = '" + district + "' and InformantTA = '" + TA + "' and InformantVillage = '" + Village + "'";
+            SqlCommand cmd = new SqlCommand(query, con);
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                districts = reader[0].ToString();
+            }
+            con.Close();
+            return district;
+        }
+        public DataTable LoadTA(string District)
+        {
+            DataTable dt = new DataTable();
+            using (SqlConnection con = new SqlConnection(connection.GetDBConnection()))
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand("select distinct InformantTA from ChildDetail where InformantDistrict='" + District + "' and InformantTA <> '' and brn<>'' and ben <> ''", con);
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+
+                sda.Fill(dt);
+                con.Close();
+            }
+            return dt;
+        }
+        public DataTable LoadVillages(string District, string TA)
+        {
+            DataTable dt = new DataTable();
+            using (SqlConnection con = new SqlConnection(connection.GetDBConnection()))
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand("select distinct InformantVillage from ChildDetail where InformantDistrict='" + District + "' and  order by InformantVillage asc", con);
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+
+                sda.Fill(dt);
+                con.Close();
+            }
+            return dt;
+        }
+        public DataTable LoadRecords(string TA, string village)
+        {
+            DataTable dt = new DataTable();
+            using (SqlConnection con = new SqlConnection(connection.GetDBConnection()))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand("select ben,Firstname,Othernames,Surname,DateOfBirth,MotherFirstname,MotherOthernames,MotherSurname,FatherFirstname,FatherOthernames,FatherSurname from ChildDetail where InformantTA='" + TA + "' and InformantVillage='" + village + "' and ben<>'' and RecStatus=4 and brn<>''  order by Surname,Firstname asc"))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter())
+                    {
+                        cmd.Connection = con;
+                        sda.SelectCommand = cmd;
+                        sda.Fill(dt);
+                    }
+                }
+                con.Close();
+            }
+            return dt;
+        }
+        
+       
     }
 }
