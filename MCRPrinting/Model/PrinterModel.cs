@@ -13,14 +13,15 @@ using System.Drawing;
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Windows.Forms;
+using QRCoder;
+using System.Drawing.Imaging;
+using System.IO;
 
 namespace MCRPrinting.Model
 {
     public class PrinterModel
     {
         static string PrinterStatus = string.Empty;
-
-        
 
         public static string CheckPrinterStatus()
         {
@@ -62,71 +63,108 @@ namespace MCRPrinting.Model
     }
     public class MCRModel
     {
+        MCRConnection connection = new MCRConnection();
         public string GetAdmins()
         {
             string admin = "('TFWEXM5S', 'T71DWFS1', 'SABMGVBR', 'SMADZCGS', 'VCF363FX', 'V2WA3AKZ', 'SXM64P78', 'QJN4S81Z', 'RRF4E5TR', 'PQ6377WD', 'SAMRB7FS')";
             return admin;
         }
+       
     }
     public class PrintCertificate
     {
         MCRConnection connection = new MCRConnection();
         PrintDocument printDocument = new PrintDocument();
         
-        void PrintRecords()
+        public void PrintRecords()
         {
             using (SqlConnection cons = new SqlConnection(connection.GetDBConnection()))
             {
-                cons.Open();
-                string query = "select ben as BirthEntryNumber, pin as NationalID, Firstname + ' '+Othernames +' '+Surname  as Name, DateOfBirth as DateOfBirth, ChildSex as Sex, BirthVillage +',' + BirthTA +','+BirthDistrict as PlaceofBirth, MotherFirstname + ' '+MotherOthernames +' ' + MotherSurname as NameofMother, MotherNationality as NationalityofMother, FatherFirstname + ' '+ FatherOthernames +' '+ FatherSurname as NameofFather, FatherNationality as NationalityofFather, DateOfRegistration as DateOfRegistration, Firstname+'~'+Surname as QRData, InformantDistrict + ', ' +InformantTA + ', '+InformantVillage as InformantAddress from ChildDetail where  InformantTA='" + BirthCertificateDetails.dtTA + "' and InformantVillage='" + BirthCertificateDetails.dtVillage + "' and InformantDistrict='" + BirthCertificateDetails.dtDistrict + "'";
-                using (SqlCommand command = new SqlCommand(query, cons))
+                try
                 {
-                    using (SqlDataReader rdr = command.ExecuteReader())
+                    cons.Open();
+                    string query = "select ben as BirthEntryNumber, pin as NationalID, Firstname + ' '+Othernames +' '+Surname  as Name, DateOfBirth as DateOfBirth, ChildSex as Sex, BirthVillage +',' + BirthTA +','+BirthDistrict as PlaceofBirth, MotherFirstname + ' '+MotherOthernames +' ' + MotherSurname as NameofMother, MotherNationality as NationalityofMother, FatherFirstname + ' '+ FatherOthernames +' '+ FatherSurname as NameofFather, FatherNationality as NationalityofFather, DateOfRegistration as DateOfRegistration, Firstname+'~'+Surname as QRData, InformantDistrict + ', ' +InformantTA + ', '+InformantVillage as InformantAddress from ChildDetail where ben<>'' and brn<>'' and  InformantTA='" + BirthCertificateDetails.dtTA + "' and InformantVillage='" + BirthCertificateDetails.dtVillage + "' and InformantDistrict='" + BirthCertificateDetails.dtDistrict + "'";
+                    using (SqlCommand command = new SqlCommand(query, cons))
                     {
-                        if (rdr.HasRows)
+                        using (SqlDataReader rdr = command.ExecuteReader())
                         {
-
-
-                            while (rdr.Read())
+                            if (rdr.HasRows)
                             {
+                                while (rdr.Read())
+                                {
+                                    //DateTime.Now.ToString("dddd, dd MMMM yyyy");
+                                    BirthCertificateDetails.BEN = rdr[0].ToString();
+                                    BirthCertificateDetails.Fullname = rdr[2].ToString();
+                                    BirthCertificateDetails.DateofBirth = DateTime.Parse(rdr[3].ToString());
+                                    BirthCertificateDetails.Sex = rdr[4].ToString();
+                                    BirthCertificateDetails.PlaceofBirth = rdr[5].ToString();
+                                    BirthCertificateDetails.NameofMother = rdr[6].ToString();
+                                    BirthCertificateDetails.MotherNationality = rdr[7].ToString();
+                                    BirthCertificateDetails.NameOfFather = rdr[8].ToString();
+                                    BirthCertificateDetails.NationalityOfFather = rdr[9].ToString();
+                                    BirthCertificateDetails.DateofRegistration = DateTime.Parse(rdr[10].ToString());
+                                    BirthCertificateDetails.PlaceOfRegistration = rdr[12].ToString();
 
-                                //DateTime.Now.ToString("dddd, dd MMMM yyyy");
-                                BirthCertificateDetails.BEN = rdr[0].ToString();
-                                BirthCertificateDetails.Fullname = rdr[2].ToString();
-                                BirthCertificateDetails.DateofBirth = DateTime.Parse(rdr[3].ToString());
-                                BirthCertificateDetails.Sex = rdr[4].ToString();
-                                BirthCertificateDetails.PlaceofBirth = rdr[5].ToString();
-                                BirthCertificateDetails.NameofMother = rdr[6].ToString();
-                                BirthCertificateDetails.MotherNationality = rdr[7].ToString();
-                                BirthCertificateDetails.NameOfFather = rdr[8].ToString();
-                                BirthCertificateDetails.NationalityOfFather = rdr[9].ToString();
-                                BirthCertificateDetails.DateofRegistration = DateTime.Parse(rdr[10].ToString());
-                                BirthCertificateDetails.PlaceOfRegistration = rdr[12].ToString();
+                                    //printDocument.PrintPage += PrintDocumentOnPrintPage;
+                                    //printDocument.Print();
+                                    //GenerateQrCode();
 
-                                //printDocument.PrintPage += PrintDocumentOnPrintPage;
-                                //printDocument.Print();
+                                    printDocument.PrintPage += PrintDocumentOnPrintPage;
+                                    printDocument.PrintController = new StandardPrintController();
+                                    printDocument.DefaultPageSettings.Landscape = true;
+                                    //printDocument.EndPrint += new PrintEventHandler(EndPrint);
 
+                                    printDocument.Print();
 
-                                printDocument.PrintPage += PrintDocumentOnPrintPage;
-                                printDocument.PrintController = new StandardPrintController();
-                                printDocument.DefaultPageSettings.Landscape = true;
-                                //printDocument.EndPrint += new PrintEventHandler(EndPrint);
-
-                                printDocument.Print();
-
+                                }
                             }
                         }
                     }
+                    cons.Close();
                 }
-                cons.Close();
+                catch(Exception ex)
+                {
+                    MessageBox.Show("Failed to connect to Server!!! Please contact Administrator" +ex);
+                    Application.Exit();
+                }
+                
             }
+        }
+        public void GenerateQrCode(string RegId)
+        {
+            SqlConnection con = new SqlConnection(connection.GetDBConnection());
+            con.Open();
+            //string query = "select ben as BirthEntryNumber, pin as NationalID, Firstname + ' '+Othernames +' '+Surname  as Name, DateOfBirth as DateOfBirth, ChildSex as Sex, BirthVillage +',' + BirthTA +','+BirthDistrict as PlaceofBirth, MotherFirstname + ' '+MotherOthernames +' ' + MotherSurname as NameofMother, MotherNationality as NationalityofMother, FatherFirstname + ' '+ FatherOthernames +' '+ FatherSurname as NameofFather, FatherNationality as NationalityofFather, DateOfRegistration as DateOfRegistration, Firstname+'~'+Surname as QRData, InformantDistrict as InformantAddress from ChildDetail where  ben='" + RegId + "'";
+
+            string query = "select '' as BirthEntryNumber, '' as NationalID, Firstname + ' '+Othernames +' '+Surname  as Name, DateOfBirth as DateOfBirth, ChildSex as Sex, BirthVillage as PlaceofBirth, MotherFirstname + ' '+MotherOthernames +' ' + MotherSurname as NameofMother, MotherNationality as NationalityofMother, FatherFirstname + ' '+ FatherOthernames +' '+ FatherSurname as NameofFather, FatherNationality as NationalityofFather, DateOfRegistration as DateOfRegistration, Firstname+'~'+Surname as QRData, InformantDistrict as InformantAddress from ChildDetail where ben='" + RegId + "'";
+            SqlCommand cmd = new SqlCommand(query, con);
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                string qrData = "04" + "~" + reader["BirthEntryNumber"].ToString() + "~" + reader["Name"].ToString() + "~" + reader["NationalID"].ToString() + "~" + reader["NameofMother"].ToString() + "~" + reader["NationalityofMother"].ToString() + "~" + reader["NameofFather"].ToString() + "~" + reader["NationalityofFather"].ToString() + "~" + reader["DateOfRegistration"].ToString();
+
+                QRCoder.QRCodeGenerator qRCodeGenerator = new QRCoder.QRCodeGenerator();
+                QRCoder.QRCodeData qRCodeData = qRCodeGenerator.CreateQrCode(qrData, QRCoder.QRCodeGenerator.ECCLevel.Q);
+                QRCoder.QRCode qRCode = new QRCode(qRCodeData);
+                Bitmap bmp = qRCode.GetGraphic(1);
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    bmp.Save(ms, ImageFormat.Bmp);
+                    BirthCertificateDetails.qrImage = bmp;
+                    //pictureBox1.Image = bmp;
+                    //pictureBox1.Width = 150;
+                    //pictureBox1.Height = 150;
+                }
+                Image data = BirthCertificateDetails.qrImage;
+            }
+            con.Close();
         }
         private void PrintDocumentOnPrintPage(object sender, PrintPageEventArgs e)
         {
             TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
             Declaration dec = new Declaration();
 
-            //GenerateQrCode(BirthCertificateDetails.BEN);
+            
             var fnt = new Font("Arial", 9, FontStyle.Regular);
 
             e.Graphics.DrawString("\t\t\t\t1.  " + BirthCertificateDetails.lblBEN(), fnt, Brushes.Black, 170, 275);
@@ -173,6 +211,7 @@ namespace MCRPrinting.Model
 
             e.Graphics.DrawString(BirthCertificateDetails.PlaceOfRegistration.ToLower(), fnt, Brushes.Black, 550, 825);
 
+            GenerateQrCode(BirthCertificateDetails.BEN);
 
             e.Graphics.DrawImage(BirthCertificateDetails.qrImage, 600, 75);
             //UpdateRecords(BEN);

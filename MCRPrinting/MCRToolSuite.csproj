@@ -91,6 +91,7 @@
     <Compile Include="Model\MCRConnection.cs" />
     <Compile Include="Model\MCRQueries.cs" />
     <Compile Include="Model\PrinterModel.cs" />
+    <Compile Include="Model\Serverconnection.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SplashScreen.cs">

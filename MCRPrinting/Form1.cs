@@ -26,7 +26,7 @@ namespace MCRPrinting
         string Constring = @"Data Source=issah\issah;Initial Catalog=MassReg;Persist Security Info=True;User ID=sa;Password=lengan1";
        //string Constring = @"Data Source=10.45.80.51\mcr;Initial Catalog=MassReg;User ID=sa;Password=Password1";
         PrintDocument printDocument = new PrintDocument();
-        
+        PrintCertificate _print = new PrintCertificate();
 
         MCRQueries queries= new MCRQueries();
         
@@ -71,16 +71,18 @@ namespace MCRPrinting
         {
             //printDocument.PrinterSettings.PrinterName = "";
 
-            if(printDocument.PrinterSettings.PrinterName != "Evolis Primacy")
-            {
-                MessageBox.Show("Printer not connected");
-            }
+            //if(printDocument.PrinterSettings.PrinterName != "Evolis Primacy")
+            //{
+            //    MessageBox.Show("Printer not connected");
+            //}
 
-            printDocument.PrintPage += PrintDocumentOnPrintPage;
-            printDocument.PrintController = new StandardPrintController();
-            printDocument.DefaultPageSettings.Landscape = true;
-            printDocument.EndPrint += new PrintEventHandler(EndPrint);
-            printDocument.Print();
+            //printDocument.PrintPage += PrintDocumentOnPrintPage;
+            //printDocument.PrintController = new StandardPrintController();
+            //printDocument.DefaultPageSettings.Landscape = true;
+            //printDocument.EndPrint += new PrintEventHandler(EndPrint);
+            //printDocument.Print();
+
+            _print.PrintRecords();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -329,16 +331,17 @@ namespace MCRPrinting
             {
                 DataGridViewRow row = dataGridView2.Rows[e.RowIndex];
 
-                dtDistrict = dataGridView2.SelectedCells[0].Value.ToString();
-                dtVillage = dataGridView2.SelectedCells[2].Value.ToString();
-                dtTA = dataGridView2.SelectedCells[1].Value.ToString(); 
+                BirthCertificateDetails.dtDistrict = dataGridView2.SelectedCells[0].Value.ToString();
+                BirthCertificateDetails.dtVillage = dataGridView2.SelectedCells[2].Value.ToString();
+                BirthCertificateDetails.dtTA = dataGridView2.SelectedCells[1].Value.ToString(); 
 
             }
         }
 
         private void btnStartPrint_Click(object sender, EventArgs e)
         {
-            PrintRecords();
+            _print.PrintRecords();
+            //PrintRecords();
         }
 
         private void txtSearchresults_TextChanged(object sender, EventArgs e)
@@ -374,5 +377,9 @@ namespace MCRPrinting
             }
         }
 
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }

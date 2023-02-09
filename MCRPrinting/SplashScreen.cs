@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MCRPrinting.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,9 +13,16 @@ namespace MCRPrinting
 {
     public partial class SplashScreen : Form
     {
+        MCRConnection connection = new MCRConnection();
+
+        Serverconnection serverconnection = new Serverconnection();
         public SplashScreen()
         {
             InitializeComponent();
+
+            //bool server = serverconnection.IsServerConnected(connection.GetDBConnection());
+            //if (serverconnection.IsServerConnected(connection.GetDBConnection()))
+            //    MessageBox.Show("Server not available");
         }
 
         private void timer1_Tick(object sender, EventArgs e)

@@ -72,6 +72,8 @@
             this.btnBatchPrint = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.label44 = new System.Windows.Forms.Label();
+            this.lblPrintStatus = new System.Windows.Forms.Label();
             this.txtSearchresults = new System.Windows.Forms.TextBox();
             this.LblTotals = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
@@ -137,7 +139,10 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.label14 = new System.Windows.Forms.Label();
             this.reports = new System.Windows.Forms.TabPage();
-            this.lblPrintStatus = new System.Windows.Forms.Label();
+            this.btnExit = new System.Windows.Forms.Button();
+            this.panel15 = new System.Windows.Forms.Panel();
+            this.label45 = new System.Windows.Forms.Label();
+            this.panel16 = new System.Windows.Forms.Panel();
             this.tabControl1.SuspendLayout();
             this.singlePrint.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -161,6 +166,8 @@
             this.panel11.SuspendLayout();
             this.panel10.SuspendLayout();
             this.panel4.SuspendLayout();
+            this.panel15.SuspendLayout();
+            this.panel16.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -176,7 +183,7 @@
             this.tabControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(2943, 1791);
+            this.tabControl1.Size = new System.Drawing.Size(2943, 1726);
             this.tabControl1.TabIndex = 2;
             // 
             // Home
@@ -187,7 +194,7 @@
             this.Home.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Home.Name = "Home";
             this.Home.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.Home.Size = new System.Drawing.Size(2923, 1718);
+            this.Home.Size = new System.Drawing.Size(2923, 1653);
             this.Home.TabIndex = 0;
             this.Home.Text = "Home";
             this.Home.UseVisualStyleBackColor = true;
@@ -226,7 +233,7 @@
             this.singlePrint.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.singlePrint.Name = "singlePrint";
             this.singlePrint.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.singlePrint.Size = new System.Drawing.Size(2923, 1718);
+            this.singlePrint.Size = new System.Drawing.Size(2923, 1653);
             this.singlePrint.TabIndex = 1;
             this.singlePrint.Text = "Single Print";
             this.singlePrint.UseVisualStyleBackColor = true;
@@ -562,7 +569,7 @@
             this.batchPrint.Location = new System.Drawing.Point(10, 63);
             this.batchPrint.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.batchPrint.Name = "batchPrint";
-            this.batchPrint.Size = new System.Drawing.Size(2923, 1718);
+            this.batchPrint.Size = new System.Drawing.Size(2923, 1653);
             this.batchPrint.TabIndex = 2;
             this.batchPrint.Text = "Batch Print";
             this.batchPrint.UseVisualStyleBackColor = true;
@@ -574,7 +581,7 @@
             this.panel14.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel14.Location = new System.Drawing.Point(0, 407);
             this.panel14.Name = "panel14";
-            this.panel14.Size = new System.Drawing.Size(2919, 1198);
+            this.panel14.Size = new System.Drawing.Size(2919, 1133);
             this.panel14.TabIndex = 74;
             // 
             // dataGridView2
@@ -585,7 +592,7 @@
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowHeadersWidth = 102;
             this.dataGridView2.RowTemplate.Height = 40;
-            this.dataGridView2.Size = new System.Drawing.Size(1468, 1198);
+            this.dataGridView2.Size = new System.Drawing.Size(1468, 1133);
             this.dataGridView2.TabIndex = 74;
             this.dataGridView2.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView2_CellMouseClick);
             // 
@@ -597,7 +604,7 @@
             this.resultdataGridView.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.resultdataGridView.Name = "resultdataGridView";
             this.resultdataGridView.RowHeadersWidth = 102;
-            this.resultdataGridView.Size = new System.Drawing.Size(1158, 1198);
+            this.resultdataGridView.Size = new System.Drawing.Size(1158, 1133);
             this.resultdataGridView.TabIndex = 73;
             // 
             // panel13
@@ -605,7 +612,7 @@
             this.panel13.Controls.Add(this.btnStartPrint);
             this.panel13.Controls.Add(this.btnBatchPrint);
             this.panel13.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel13.Location = new System.Drawing.Point(0, 1605);
+            this.panel13.Location = new System.Drawing.Point(0, 1540);
             this.panel13.Name = "panel13";
             this.panel13.Size = new System.Drawing.Size(2919, 109);
             this.panel13.TabIndex = 73;
@@ -647,6 +654,7 @@
             // panel2
             // 
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel2.Controls.Add(this.label44);
             this.panel2.Controls.Add(this.lblPrintStatus);
             this.panel2.Controls.Add(this.txtSearchresults);
             this.panel2.Controls.Add(this.LblTotals);
@@ -659,9 +667,27 @@
             this.panel2.Size = new System.Drawing.Size(2919, 407);
             this.panel2.TabIndex = 1;
             // 
+            // label44
+            // 
+            this.label44.AutoSize = true;
+            this.label44.Location = new System.Drawing.Point(1458, 356);
+            this.label44.Name = "label44";
+            this.label44.Size = new System.Drawing.Size(288, 46);
+            this.label44.TabIndex = 18;
+            this.label44.Text = "Search options";
+            // 
+            // lblPrintStatus
+            // 
+            this.lblPrintStatus.AutoSize = true;
+            this.lblPrintStatus.Location = new System.Drawing.Point(891, 263);
+            this.lblPrintStatus.Name = "lblPrintStatus";
+            this.lblPrintStatus.Size = new System.Drawing.Size(226, 46);
+            this.lblPrintStatus.TabIndex = 17;
+            this.lblPrintStatus.Text = "Print Status";
+            // 
             // txtSearchresults
             // 
-            this.txtSearchresults.Location = new System.Drawing.Point(1591, 346);
+            this.txtSearchresults.Location = new System.Drawing.Point(1752, 346);
             this.txtSearchresults.Name = "txtSearchresults";
             this.txtSearchresults.Size = new System.Drawing.Size(462, 53);
             this.txtSearchresults.TabIndex = 16;
@@ -782,7 +808,7 @@
             this.tabAdjudication.Location = new System.Drawing.Point(10, 63);
             this.tabAdjudication.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.tabAdjudication.Name = "tabAdjudication";
-            this.tabAdjudication.Size = new System.Drawing.Size(2923, 1718);
+            this.tabAdjudication.Size = new System.Drawing.Size(2923, 1653);
             this.tabAdjudication.TabIndex = 4;
             this.tabAdjudication.Text = "Adjudication";
             // 
@@ -795,7 +821,7 @@
             this.panel8.Location = new System.Drawing.Point(1775, 700);
             this.panel8.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(1148, 783);
+            this.panel8.Size = new System.Drawing.Size(1148, 718);
             this.panel8.TabIndex = 2;
             // 
             // label43
@@ -842,7 +868,7 @@
             this.panel7.Location = new System.Drawing.Point(543, 700);
             this.panel7.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(1159, 783);
+            this.panel7.Size = new System.Drawing.Size(1159, 718);
             this.panel7.TabIndex = 1;
             // 
             // label42
@@ -1044,7 +1070,7 @@
             this.panel6.Controls.Add(this.button2);
             this.panel6.Controls.Add(this.button1);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel6.Location = new System.Drawing.Point(543, 1483);
+            this.panel6.Location = new System.Drawing.Point(543, 1418);
             this.panel6.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(2380, 235);
@@ -1092,7 +1118,7 @@
             this.panel5.Location = new System.Drawing.Point(0, 95);
             this.panel5.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(543, 1623);
+            this.panel5.Size = new System.Drawing.Size(543, 1558);
             this.panel5.TabIndex = 0;
             // 
             // button4
@@ -1351,19 +1377,53 @@
             this.reports.Location = new System.Drawing.Point(10, 63);
             this.reports.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.reports.Name = "reports";
-            this.reports.Size = new System.Drawing.Size(2923, 1718);
+            this.reports.Size = new System.Drawing.Size(2923, 1653);
             this.reports.TabIndex = 3;
             this.reports.Text = "Reports";
             this.reports.UseVisualStyleBackColor = true;
             // 
-            // lblPrintStatus
+            // btnExit
             // 
-            this.lblPrintStatus.AutoSize = true;
-            this.lblPrintStatus.Location = new System.Drawing.Point(891, 263);
-            this.lblPrintStatus.Name = "lblPrintStatus";
-            this.lblPrintStatus.Size = new System.Drawing.Size(226, 46);
-            this.lblPrintStatus.TabIndex = 17;
-            this.lblPrintStatus.Text = "Print Status";
+            this.btnExit.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnExit.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExit.ForeColor = System.Drawing.Color.Red;
+            this.btnExit.Location = new System.Drawing.Point(2834, 0);
+            this.btnExit.Name = "btnExit";
+            this.btnExit.Size = new System.Drawing.Size(109, 65);
+            this.btnExit.TabIndex = 73;
+            this.btnExit.Text = "X";
+            this.btnExit.UseVisualStyleBackColor = true;
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
+            // 
+            // panel15
+            // 
+            this.panel15.Controls.Add(this.label45);
+            this.panel15.Controls.Add(this.btnExit);
+            this.panel15.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel15.Location = new System.Drawing.Point(0, 0);
+            this.panel15.Name = "panel15";
+            this.panel15.Size = new System.Drawing.Size(2943, 65);
+            this.panel15.TabIndex = 3;
+            // 
+            // label45
+            // 
+            this.label45.AutoSize = true;
+            this.label45.Dock = System.Windows.Forms.DockStyle.Left;
+            this.label45.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label45.Location = new System.Drawing.Point(0, 0);
+            this.label45.Name = "label45";
+            this.label45.Size = new System.Drawing.Size(365, 54);
+            this.label45.TabIndex = 74;
+            this.label45.Text = "MCR Tool Suite";
+            // 
+            // panel16
+            // 
+            this.panel16.Controls.Add(this.tabControl1);
+            this.panel16.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel16.Location = new System.Drawing.Point(0, 65);
+            this.panel16.Name = "panel16";
+            this.panel16.Size = new System.Drawing.Size(2943, 1726);
+            this.panel16.TabIndex = 4;
             // 
             // Form1
             // 
@@ -1371,7 +1431,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Snow;
             this.ClientSize = new System.Drawing.Size(2943, 1791);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.panel16);
+            this.Controls.Add(this.panel15);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.MaximizeBox = false;
@@ -1412,6 +1474,9 @@
             this.panel10.PerformLayout();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
+            this.panel15.ResumeLayout(false);
+            this.panel15.PerformLayout();
+            this.panel16.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1526,6 +1591,11 @@
         private System.Windows.Forms.Button btnStartPrint;
         private System.Windows.Forms.TextBox txtSearchresults;
         private System.Windows.Forms.Label lblPrintStatus;
+        private System.Windows.Forms.Label label44;
+        private System.Windows.Forms.Button btnExit;
+        private System.Windows.Forms.Panel panel15;
+        private System.Windows.Forms.Panel panel16;
+        private System.Windows.Forms.Label label45;
     }
 }
 

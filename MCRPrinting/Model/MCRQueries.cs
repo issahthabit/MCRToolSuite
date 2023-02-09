@@ -40,29 +40,37 @@ namespace MCRPrinting.Model
 
             using (SqlConnection con = new SqlConnection(connection.GetDBConnection()))
             {
-                con.Open();
-                using (SqlCommand cmd = new SqlCommand(qry, con))
+                try
                 {
-                    using (SqlDataReader rdr = cmd.ExecuteReader())
+                    con.Open();
+                    using (SqlCommand cmd = new SqlCommand(qry, con))
                     {
-                        while (rdr.Read())
+                        using (SqlDataReader rdr = cmd.ExecuteReader())
                         {
-                            BirthCertificateDetails.BEN = rdr[0].ToString();
-                            BirthCertificateDetails.Fullname = rdr[2].ToString();
-                            BirthCertificateDetails.DateofBirth = DateTime.Parse(rdr[3].ToString());
-                            BirthCertificateDetails.Sex = rdr[4].ToString();
-                            BirthCertificateDetails.PlaceofBirth = rdr[5].ToString();
-                            BirthCertificateDetails.NameofMother = rdr[6].ToString();
-                            BirthCertificateDetails.MotherNationality = rdr[7].ToString();
-                            BirthCertificateDetails.NameOfFather = rdr[8].ToString();
-                            BirthCertificateDetails.NationalityOfFather = rdr[9].ToString();
-                            BirthCertificateDetails.DateofRegistration = DateTime.Parse(rdr[10].ToString());
-                            BirthCertificateDetails.PlaceOfRegistration = rdr[12].ToString();
+                            while (rdr.Read())
+                            {
+                                BirthCertificateDetails.BEN = rdr[0].ToString();
+                                BirthCertificateDetails.Fullname = rdr[2].ToString();
+                                BirthCertificateDetails.DateofBirth = DateTime.Parse(rdr[3].ToString());
+                                BirthCertificateDetails.Sex = rdr[4].ToString();
+                                BirthCertificateDetails.PlaceofBirth = rdr[5].ToString();
+                                BirthCertificateDetails.NameofMother = rdr[6].ToString();
+                                BirthCertificateDetails.MotherNationality = rdr[7].ToString();
+                                BirthCertificateDetails.NameOfFather = rdr[8].ToString();
+                                BirthCertificateDetails.NationalityOfFather = rdr[9].ToString();
+                                BirthCertificateDetails.DateofRegistration = DateTime.Parse(rdr[10].ToString());
+                                BirthCertificateDetails.PlaceOfRegistration = rdr[12].ToString();
 
+                            }
                         }
                     }
+                    con.Close();
                 }
-                con.Close();
+                catch
+                {
+                    MessageBox.Show("Failed to connect to the server !!!!");
+                    Application.Exit();
+                }
             }
         }
         public void UpdateRecords(string personid)
@@ -80,35 +88,62 @@ namespace MCRPrinting.Model
         }
         public DataTable LoadrecordsCountByDistrict(string District)
         {
-            SqlConnection con = new SqlConnection(connection.GetDBConnection());
-            SqlCommand cmd = new SqlCommand("SELECT InformantDistrict,InformantTA,InformantVillage,COUNT(*) AS RECORDS FROM ChildDetail where InformantDistrict='" + District + "' and ben<>'' and brn<>'' and PlaceOfRegistrationId<>'' and Edituser not in "+model.GetAdmins()+" GROUP BY InformantDistrict,InformantTA,InformantVillage order by InformantDistrict,InformantTA,InformantVillage");
-            SqlDataAdapter sda = new SqlDataAdapter();
-            cmd.Connection = con;
-            sda.SelectCommand = cmd;
             DataTable dt = new DataTable();
-            sda.Fill(dt);
+            SqlConnection con = new SqlConnection(connection.GetDBConnection());
+            try
+            {
+                SqlCommand cmd = new SqlCommand("SELECT InformantDistrict,InformantTA,InformantVillage,COUNT(*) AS RECORDS FROM ChildDetail where InformantDistrict='" + District + "' and ben<>'' and brn<>'' and PlaceOfRegistrationId<>'' and Edituser not in " + model.GetAdmins() + " GROUP BY InformantDistrict,InformantTA,InformantVillage order by InformantDistrict,InformantTA,InformantVillage");
+                SqlDataAdapter sda = new SqlDataAdapter();
+                cmd.Connection = con;
+                sda.SelectCommand = cmd;
+                sda.Fill(dt);
+            }
+            catch
+            {
+                MessageBox.Show("Failed to connect to the server !!!!");
+                Application.Exit();
+            }
+            
             return dt;
         }
         public DataTable LoadrecordsCountByTA(string District,string TA)
         {
-            SqlConnection con = new SqlConnection(connection.GetDBConnection());
-            SqlCommand cmd = new SqlCommand("SELECT InformantDistrict,InformantTA,InformantVillage,COUNT(*) AS RECORDS FROM ChildDetail where InformantDistrict='" + District + "' AND InformantTA='"+TA+ "' and ben<>'' and brn<>'' and PlaceOfRegistrationId<>'' GROUP BY InformantDistrict,InformantTA,InformantVillage order by InformantDistrict,InformantTA,InformantVillage");
-            SqlDataAdapter sda = new SqlDataAdapter();
-            cmd.Connection = con;
-            sda.SelectCommand = cmd;
             DataTable dt = new DataTable();
-            sda.Fill(dt);
+            SqlConnection con = new SqlConnection(connection.GetDBConnection());
+            try
+            {
+                SqlCommand cmd = new SqlCommand("SELECT InformantDistrict,InformantTA,InformantVillage,COUNT(*) AS RECORDS FROM ChildDetail where InformantDistrict='" + District + "' AND InformantTA='" + TA + "' and ben<>'' and brn<>'' and PlaceOfRegistrationId<>'' GROUP BY InformantDistrict,InformantTA,InformantVillage order by InformantDistrict,InformantTA,InformantVillage");
+                SqlDataAdapter sda = new SqlDataAdapter();
+                cmd.Connection = con;
+                sda.SelectCommand = cmd;
+                sda.Fill(dt);
+            }
+            catch {
+                MessageBox.Show("Failed to connect to the server !!!!");
+                Application.Exit();
+            }
+            
             return dt;
         }
         public DataTable LoadrecordstByVillage(string District,string TA, string Village)
         {
-            SqlConnection con = new SqlConnection(connection.GetDBConnection());
-            SqlCommand cmd = new SqlCommand("SELECT InformantDistrict,InformantTA,InformantVillage,COUNT(*) AS RECORDS FROM ChildDetail where InformantDistrict='" + District + "' AND  PlaceOfRegistrationId<>'' and InformantTA='" + TA+ "' AND InformantVillage='"+Village+"' and ben<>'' and brn<>''  and PlaceOfRegistrationId<>'' GROUP BY InformantDistrict,InformantTA,InformantVillage order by InformantDistrict,InformantTA,InformantVillage");
-            SqlDataAdapter sda = new SqlDataAdapter();
-            cmd.Connection = con;
-            sda.SelectCommand = cmd;
             DataTable dt = new DataTable();
-            sda.Fill(dt);
+            SqlConnection con = new SqlConnection(connection.GetDBConnection());
+            try
+            {
+                SqlCommand cmd = new SqlCommand("SELECT InformantDistrict,InformantTA,InformantVillage,COUNT(*) AS RECORDS FROM ChildDetail where InformantDistrict='" + District + "' AND  PlaceOfRegistrationId<>'' and InformantTA='" + TA + "' AND InformantVillage='" + Village + "' and ben<>'' and brn<>''  and PlaceOfRegistrationId<>'' GROUP BY InformantDistrict,InformantTA,InformantVillage order by InformantDistrict,InformantTA,InformantVillage");
+                SqlDataAdapter sda = new SqlDataAdapter();
+                cmd.Connection = con;
+                sda.SelectCommand = cmd;
+                
+                sda.Fill(dt);
+                
+            }
+            catch
+            {
+                MessageBox.Show("Failed to connect to the server !!!!");
+                Application.Exit();
+            }
             return dt;
         }
         public DataTable LoadDistrict()
@@ -116,12 +151,20 @@ namespace MCRPrinting.Model
             DataTable dt = new DataTable();
             using (SqlConnection con = new SqlConnection(connection.GetDBConnection()))
             {
-                con.Open();
-                SqlCommand cmd = new SqlCommand("select InformantDistrict from ChildDetail where InformantDistrict<>'' and InformantDistrict<>'4' and brn<>'' and ben<>'' and PlaceOfRegistrationId<>'' group by InformantDistrict ", con);
-                SqlDataAdapter sda = new SqlDataAdapter(cmd);
-                
-                sda.Fill(dt);
-                con.Close();
+                try
+                {
+                    con.Open();
+                    SqlCommand cmd = new SqlCommand("select InformantDistrict from ChildDetail where InformantDistrict<>'' and InformantDistrict<>'4' and brn<>'' and ben<>'' and PlaceOfRegistrationId<>'' group by InformantDistrict ", con);
+                    SqlDataAdapter sda = new SqlDataAdapter(cmd);
+
+                    sda.Fill(dt);
+                    con.Close();
+                }
+                catch
+                {
+                    MessageBox.Show("Failed to connect to the server !!!!" );
+                    Application.Exit();
+                }
             }
             return dt;
         }
@@ -129,17 +172,25 @@ namespace MCRPrinting.Model
         {
             using (SqlConnection con = new SqlConnection(connection.GetDBConnection()))
             {
-                using (SqlCommand cmd = new SqlCommand("SELECT InformantDistrict,InformantTA,InformantVillage,COUNT(*) AS RECORDS FROM ChildDetail where InformantDistrict<>'4' and InformantDistrict<>'' and PlaceOfRegistrationId<>'' GROUP BY InformantDistrict,InformantTA,InformantVillage order by InformantDistrict,InformantTA,InformantVillage"))
+                try
                 {
-                    using (SqlDataAdapter sda = new SqlDataAdapter())
+                    using (SqlCommand cmd = new SqlCommand("SELECT InformantDistrict,InformantTA,InformantVillage,COUNT(*) AS RECORDS FROM ChildDetail where InformantDistrict<>'4' and InformantDistrict<>'' and PlaceOfRegistrationId<>'' GROUP BY InformantDistrict,InformantTA,InformantVillage order by InformantDistrict,InformantTA,InformantVillage"))
                     {
-                        cmd.Connection = con;
-                        sda.SelectCommand = cmd;
-                        using (DataTable dt = new DataTable())
+                        using (SqlDataAdapter sda = new SqlDataAdapter())
                         {
-                            sda.Fill(dt);
+                            cmd.Connection = con;
+                            sda.SelectCommand = cmd;
+                            using (DataTable dt = new DataTable())
+                            {
+                                sda.Fill(dt);
+                            }
                         }
                     }
+                }
+                catch
+                {
+                    MessageBox.Show("Failed to connect to the server !!!!" );
+                    Application.Exit();
                 }
             }
         }
@@ -147,45 +198,72 @@ namespace MCRPrinting.Model
         {
             string districts;
             SqlConnection con = new SqlConnection(connection.GetDBConnection());
-            con.Open();
-            string query = "select count(*) from ChildDetail where InformantDistrict='" + district + "'";
-            SqlCommand cmd = new SqlCommand(query, con);
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
+            try
             {
-                districts  = reader[0].ToString();
+                con.Open();
+                string query = "select count(*) from ChildDetail where InformantDistrict='" + district + "'";
+                SqlCommand cmd = new SqlCommand(query, con);
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    districts = reader[0].ToString();
+                }
+                con.Close();
+               
             }
-            con.Close();
+            catch(Exception ex)
+            {
+                MessageBox.Show("Failed to connect to the server !!!!" + ex.Message);
+                Application.Exit();
+            }
             return district;
         }
         public string LoadTATotal(string district, string TA)
         {
             string districts;
             SqlConnection con = new SqlConnection(connection.GetDBConnection());
-            con.Open();
-            string query = "select count(*) from ChildDetail where InformantDistrict = '" + district + "' and InformantTA = '"+TA+"'";
-            SqlCommand cmd = new SqlCommand(query, con);
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
+            try
             {
-                districts = reader[0].ToString();
+                con.Open();
+                string query = "select count(*) from ChildDetail where InformantDistrict = '" + district + "' and InformantTA = '" + TA + "'";
+                SqlCommand cmd = new SqlCommand(query, con);
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    districts = reader[0].ToString();
+                }
+                con.Close();
+                
             }
-            con.Close();
+            catch(Exception)
+            {
+                MessageBox.Show("Failed to connect to the server !!!!");
+                Application.Exit();
+            }
             return district;
         }
         public string LoadVillageTotal(string district, string TA, string Village)
         {
             string districts;
             SqlConnection con = new SqlConnection(connection.GetDBConnection());
-            con.Open();
-            string query = "select count(*) from ChildDetail where InformantDistrict = '" + district + "' and InformantTA = '" + TA + "' and InformantVillage = '" + Village + "'";
-            SqlCommand cmd = new SqlCommand(query, con);
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
+            try
             {
-                districts = reader[0].ToString();
+                con.Open();
+                string query = "select count(*) from ChildDetail where InformantDistrict = '" + district + "' and InformantTA = '" + TA + "' and InformantVillage = '" + Village + "'";
+                SqlCommand cmd = new SqlCommand(query, con);
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    districts = reader[0].ToString();
+                }
+                con.Close();
             }
-            con.Close();
+            catch
+            {
+                MessageBox.Show("Failed to connect to the server !!!!");
+                Application.Exit();
+            }
+            
             return district;
         }
         public DataTable LoadTA(string District)
@@ -193,12 +271,21 @@ namespace MCRPrinting.Model
             DataTable dt = new DataTable();
             using (SqlConnection con = new SqlConnection(connection.GetDBConnection()))
             {
-                con.Open();
-                SqlCommand cmd = new SqlCommand("select distinct InformantTA from ChildDetail where InformantDistrict='" + District + "' and InformantTA <> '' and brn<>'' and ben <> ''", con);
-                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                try
+                {
+                    con.Open();
+                    SqlCommand cmd = new SqlCommand("select distinct InformantTA from ChildDetail where InformantDistrict='" + District + "' and InformantTA <> '' and brn<>'' and ben <> ''", con);
+                    SqlDataAdapter sda = new SqlDataAdapter(cmd);
 
-                sda.Fill(dt);
-                con.Close();
+                    sda.Fill(dt);
+                    con.Close();
+                }
+                catch
+                {
+                    MessageBox.Show("Failed to connect to the server !!!!");
+                    Application.Exit();
+                }
+                
             }
             return dt;
         }
@@ -207,12 +294,21 @@ namespace MCRPrinting.Model
             DataTable dt = new DataTable();
             using (SqlConnection con = new SqlConnection(connection.GetDBConnection()))
             {
-                con.Open();
-                SqlCommand cmd = new SqlCommand("select distinct InformantVillage from ChildDetail where InformantDistrict='" + District + "' and  order by InformantVillage asc", con);
-                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                try
+                {
+                    con.Open();
+                    SqlCommand cmd = new SqlCommand("select distinct InformantVillage from ChildDetail where InformantDistrict='" + District + "' order by InformantVillage asc", con);
+                    SqlDataAdapter sda = new SqlDataAdapter(cmd);
 
-                sda.Fill(dt);
-                con.Close();
+                    sda.Fill(dt);
+                    con.Close();
+                }
+                catch
+                {
+                    MessageBox.Show("Failed to connect to the server !!!!");
+                    Application.Exit();
+                }
+                
             }
             return dt;
         }
@@ -221,17 +317,26 @@ namespace MCRPrinting.Model
             DataTable dt = new DataTable();
             using (SqlConnection con = new SqlConnection(connection.GetDBConnection()))
             {
-                con.Open();
-                using (SqlCommand cmd = new SqlCommand("select ben,Firstname,Othernames,Surname,DateOfBirth,MotherFirstname,MotherOthernames,MotherSurname,FatherFirstname,FatherOthernames,FatherSurname from ChildDetail where InformantTA='" + TA + "' and InformantVillage='" + village + "' and ben<>'' and RecStatus=4 and brn<>''  order by Surname,Firstname asc"))
+                try
                 {
-                    using (SqlDataAdapter sda = new SqlDataAdapter())
+                    con.Open();
+                    using (SqlCommand cmd = new SqlCommand("select ben,Firstname,Othernames,Surname,DateOfBirth,MotherFirstname,MotherOthernames,MotherSurname,FatherFirstname,FatherOthernames,FatherSurname from ChildDetail where InformantTA='" + TA + "' and InformantVillage='" + village + "' and ben<>'' and RecStatus=4 and brn<>''  order by Surname,Firstname asc"))
                     {
-                        cmd.Connection = con;
-                        sda.SelectCommand = cmd;
-                        sda.Fill(dt);
+                        using (SqlDataAdapter sda = new SqlDataAdapter())
+                        {
+                            cmd.Connection = con;
+                            sda.SelectCommand = cmd;
+                            sda.Fill(dt);
+                        }
                     }
+                    con.Close();
                 }
-                con.Close();
+                catch
+                {
+                    MessageBox.Show("Failed to connect to the server !!!!");
+                    Application.Exit();
+                }
+                
             }
             return dt;
         }
