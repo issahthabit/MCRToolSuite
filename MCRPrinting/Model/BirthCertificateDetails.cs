@@ -17,7 +17,7 @@ namespace MCRPrinting.Model
         public static string Sex { get; set; } = string.Empty;
         public static string PlaceofBirth { get; set; } = string.Empty;
         public static string NameofMother { get; set; } = string.Empty;
-        public static string MotherNationality { get; set; } = string.Empty;
+        public static string MotherNationality { get; set; } = "Malawian";
         public static string NameOfFather { get; set; } = string.Empty;
         public static string NationalityOfFather { get; set; } = string.Empty;
         public static DateTime DateofRegistration { get; set; } = DateTime.Now;
@@ -28,6 +28,8 @@ namespace MCRPrinting.Model
         public static string dtDistrict { get; set; } = string.Empty;
         public static Image qrImage { get; set; } = null;
 
+        public static string username { get; set; } = string.Empty;
+        
 
 
         // Labels
@@ -38,7 +40,7 @@ namespace MCRPrinting.Model
         }
         public static string lblFullname ()
         {
-            string name = "Registration ID";
+            string name = "Name";
             return name;
         }
         public static string lblregid ()
@@ -48,60 +50,60 @@ namespace MCRPrinting.Model
         }
         public static string lblNationalID ()
         {
-            string name = "Registration ID";
+            string name = "National ID";
             return name;
         }
         public static string lblDateofBirth ()
         {
-            string name = "Registration ID";
+            string name = "Date of Birth";
             return name;
         }
         public static string lblSex ()
         {
-            string name = "Registration ID";
+            string name = "Sex";
             return name;
         }
 
         public static string lblPlaceofBirth ()
         {
-            string name = "Registration ID";
+            string name = "Place of Birth";
             return name;
         }
         public static string lblNameofMother ()
         {
-            string name = "Registration ID";
+            string name = "Name of Mother";
             return name;
         }
         public static string lblMotherNationality ()
         {
-            string name = "Registration ID";
+            string name = "Nationality of Mother";
             return name;
         }
         public static string lblNameOfFather ()
         {
-            string name = "Registration ID";
+            string name = "Name of Father";
             return name;
         }
         public static string lblNationalityOfFather ()
         {
-            string name = "Registration ID";
+            string name = "Nationality of Father";
             return name;
         }
         public static string lblDateofRegistration ()
         {
-            string name = "Registration ID";
+            string name = "Date of Registration";
             return name;
         }
         public static string lblPlaceOfRegistration ()
         {
-            string name = "Registration ID";
+            string name = "Place of Registration";
             return name;
         }
-        public static string lblPlaceofreg ()
-        {
-            string name = "Registration ID";
-            return name;
-        }
+        //public static string lblPlaceofreg ()
+        //{
+        //    string name = "Registration ID";
+        //    return name;
+        //}
         //public static string lbldtTA ()
         //{
         //    string name = "Registration ID";

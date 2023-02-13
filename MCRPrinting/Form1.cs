@@ -23,7 +23,7 @@ namespace MCRPrinting
     public partial class Form1 : Form
     {
         //MCRConnection connection = new MCRConnection();
-        string Constring = @"Data Source=issah\issah;Initial Catalog=MassReg;Persist Security Info=True;User ID=sa;Password=lengan1";
+        //string Constring = @"Data Source=issah\issah;Initial Catalog=MassReg;Persist Security Info=True;User ID=sa;Password=lengan1";
        //string Constring = @"Data Source=10.45.80.51\mcr;Initial Catalog=MassReg;User ID=sa;Password=Password1";
         PrintDocument printDocument = new PrintDocument();
         PrintCertificate _print = new PrintCertificate();
@@ -43,7 +43,12 @@ namespace MCRPrinting
             InitializeComponent();
             this.Height = 700;
             this.Width = 1200;
+
+            
+
             this.CenterToScreen();
+
+            lblUser.Text = BirthCertificateDetails.username;
 
             if (PrinterModel.CheckPrinterStatus() != "Printer is ready")
             {
@@ -65,6 +70,7 @@ namespace MCRPrinting
             
 
             tabControl1.TabPages.Remove(tabAdjudication);
+            //tabControl1.TabPages.Add(tabAdjudication);
         }
 
         private void btnPrint_Click(object sender, EventArgs e)
@@ -94,6 +100,8 @@ namespace MCRPrinting
             DistrictCombox.DisplayMember = "InformantDistrict";
             DistrictCombox.DataSource = queries.LoadDistrict();
 
+            pictureBox1.Height= 200;
+            pictureBox2.Width= 200;
             //LoadRecordsCount();
         }
 
@@ -128,7 +136,7 @@ namespace MCRPrinting
         
         private void PrintDocumentOnPrintPage(object sender, PrintPageEventArgs e)
         {
-            GenerateQrCode(BirthCertificateDetails.BEN);
+           
             var fnt = new Font("Arial", 9, FontStyle.Regular);
 
 
@@ -177,133 +185,13 @@ namespace MCRPrinting
             e.Graphics.DrawString(BirthCertificateDetails.PlaceOfRegistration.ToLower(), fnt, Brushes.Black, 550, 825);
 
             
-
             e.Graphics.DrawImage(pictureBox1.Image, 600, 75);
-            //UpdateRecords(BEN);
         }
-        public void GenerateQrCode(string RegId)
-        {
-            SqlConnection con = new SqlConnection(Constring);
-            con.Open();
-            //string query = "select ben as BirthEntryNumber, pin as NationalID, Firstname + ' '+Othernames +' '+Surname  as Name, DateOfBirth as DateOfBirth, ChildSex as Sex, BirthVillage +',' + BirthTA +','+BirthDistrict as PlaceofBirth, MotherFirstname + ' '+MotherOthernames +' ' + MotherSurname as NameofMother, MotherNationality as NationalityofMother, FatherFirstname + ' '+ FatherOthernames +' '+ FatherSurname as NameofFather, FatherNationality as NationalityofFather, DateOfRegistration as DateOfRegistration, Firstname+'~'+Surname as QRData, InformantDistrict as InformantAddress from ChildDetail where  ben='" + RegId + "'";
-
-            string query = "select '' as BirthEntryNumber, '' as NationalID, Firstname + ' '+Othernames +' '+Surname  as Name, DateOfBirth as DateOfBirth, ChildSex as Sex, BirthVillage as PlaceofBirth, MotherFirstname + ' '+MotherOthernames +' ' + MotherSurname as NameofMother, MotherNationality as NationalityofMother, FatherFirstname + ' '+ FatherOthernames +' '+ FatherSurname as NameofFather, FatherNationality as NationalityofFather, DateOfRegistration as DateOfRegistration, Firstname+'~'+Surname as QRData, InformantDistrict as InformantAddress from ChildDetail where RegistrationId='" + txtSearchEntry.Text + "'";
-            SqlCommand cmd = new SqlCommand(query, con);
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                string qrData = "04" + "~" + reader["BirthEntryNumber"].ToString() + "~" + reader["Name"].ToString() + "~" + reader["NationalID"].ToString() + "~" + reader["NameofMother"].ToString() + "~" + reader["NationalityofMother"].ToString() + "~" + reader["NameofFather"].ToString() + "~" + reader["NationalityofFather"].ToString() + "~" + reader["DateOfRegistration"].ToString();
-
-                QRCoder.QRCodeGenerator qRCodeGenerator = new QRCoder.QRCodeGenerator();
-                QRCoder.QRCodeData qRCodeData = qRCodeGenerator.CreateQrCode(qrData, QRCoder.QRCodeGenerator.ECCLevel.Q);
-                QRCoder.QRCode qRCode = new QRCode(qRCodeData);
-                Bitmap bmp = qRCode.GetGraphic(1);
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    bmp.Save(ms, ImageFormat.Bmp);
-                    pictureBox1.Image = bmp;
-                    pictureBox1.Width = 150;
-                    pictureBox1.Height = 150;
-                }
-            }
-            con.Close();
-        }
-        void PrintRecords()
-        {
-            using (SqlConnection cons = new SqlConnection(Constring))
-            {
-                cons.Open();
-                string query = "select ben as BirthEntryNumber, pin as NationalID, Firstname + ' '+Othernames +' '+Surname  as Name, DateOfBirth as DateOfBirth, ChildSex as Sex, BirthVillage +',' + BirthTA +','+BirthDistrict as PlaceofBirth, MotherFirstname + ' '+MotherOthernames +' ' + MotherSurname as NameofMother, MotherNationality as NationalityofMother, FatherFirstname + ' '+ FatherOthernames +' '+ FatherSurname as NameofFather, FatherNationality as NationalityofFather, DateOfRegistration as DateOfRegistration, Firstname+'~'+Surname as QRData, InformantDistrict + ', ' +InformantTA + ', '+InformantVillage as InformantAddress from ChildDetail where  InformantTA='"+dtTA+"' and InformantVillage='"+dtVillage+"' and InformantDistrict='"+dtDistrict+"'";
-                using (SqlCommand command = new SqlCommand(query, cons))
-                {
-                    using (SqlDataReader rdr = command.ExecuteReader())
-                    {
-                        if(rdr.HasRows)
-                        {
-
-                        }
-                        while (rdr.Read())
-                        {
-                            
-                            //DateTime.Now.ToString("dddd, dd MMMM yyyy");
-                            BirthCertificateDetails.BEN = rdr[0].ToString();
-                            BirthCertificateDetails.Fullname = rdr[2].ToString();
-                            BirthCertificateDetails.DateofBirth = DateTime.Parse(rdr[3].ToString());
-                            BirthCertificateDetails.Sex = rdr[4].ToString();
-                            BirthCertificateDetails.PlaceofBirth = rdr[5].ToString();
-                            BirthCertificateDetails.NameofMother = rdr[6].ToString();
-                            BirthCertificateDetails.MotherNationality = rdr[7].ToString();
-                            BirthCertificateDetails.NameOfFather = rdr[8].ToString();
-                            BirthCertificateDetails.NationalityOfFather = rdr[9].ToString();
-                            BirthCertificateDetails.DateofRegistration = DateTime.Parse(rdr[10].ToString());
-                            BirthCertificateDetails.PlaceOfRegistration = rdr[12].ToString();
-
-                            //printDocument.PrintPage += PrintDocumentOnPrintPage;
-                            //printDocument.Print();
-                            
-
-                            printDocument.PrintPage += PrintDocumentOnPrintPage;
-                            printDocument.PrintController = new StandardPrintController();
-                            printDocument.DefaultPageSettings.Landscape = true;
-                            printDocument.EndPrint += new PrintEventHandler(EndPrint);
-                           
-                            printDocument.Print();
-
-                        }
-                    }
-                }
-                cons.Close();
-            }      
-        }
+      
 
         private void btnBatchPrint_Click(object sender, EventArgs e)
         {
-            string str = "select RegistrationId  from ChildDetail where InformantTA='" + TACombox.Text + "' and InformantVillage='" + VillagecomBox.Text + "'";
-            using (SqlConnection con = new SqlConnection(Constring))
-            {
-                con.Open();
-                using (SqlCommand cmd = new SqlCommand(str, con))
-                {
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            using (SqlConnection cons = new SqlConnection(Constring))
-                            {
-                                cons.Open();
-                                string query = "select RegistrationId as BirthEntryNumber, '' as NationalID, Firstname + ' '+Othernames +' '+Surname  as Name, DateOfBirth as DateOfBirth, ChildSex as Sex, BirthVillage +',' + BirthTA +','+BirthDistrict as PlaceofBirth, MotherFirstname + ' '+MotherOthernames +' ' + MotherSurname as NameofMother, MotherNationality as NationalityofMother, FatherFirstname + ' '+ FatherOthernames +' '+ FatherSurname as NameofFather, FatherNationality as NationalityofFather, DateOfRegistration as DateOfRegistration, Firstname+'~'+Surname as QRData, InformantDistrict + ', ' +InformantTA + ', '+InformantVillage as InformantAddress from ChildDetail where  RegistrationId='" + reader[0].ToString() + "'";
-                                using (SqlCommand command = new SqlCommand(query, cons))
-                                {
-                                    using (SqlDataReader rdr = command.ExecuteReader())
-                                    {
-                                        while (rdr.Read())
-                                        {
-                                            //DateTime.Now.ToString("dddd, dd MMMM yyyy");
-                                            BirthCertificateDetails.BEN = rdr[0].ToString();
-                                            BirthCertificateDetails.Fullname = rdr[2].ToString();
-                                            BirthCertificateDetails.DateofBirth = DateTime.Parse( rdr[3].ToString());
-                                            BirthCertificateDetails.Sex = rdr[4].ToString();
-                                            BirthCertificateDetails.PlaceofBirth = rdr[5].ToString();
-                                            BirthCertificateDetails.NameofMother = rdr[6].ToString();
-                                            BirthCertificateDetails.MotherNationality = rdr[7].ToString();
-                                            BirthCertificateDetails.NameOfFather = rdr[8].ToString();
-                                            BirthCertificateDetails.NationalityOfFather = rdr[9].ToString();
-                                            BirthCertificateDetails.DateofRegistration = DateTime.Parse(rdr[10].ToString());
-                                            BirthCertificateDetails.PlaceOfRegistration = rdr[12].ToString();
-
-
-                                            printDocument.PrintPage += PrintDocumentOnPrintPage;
-                                            printDocument.Print();
-                                        }
-                                    }
-                                }
-                                cons.Close();
-                            }
-                        }
-                    }
-                }
-                con.Close();
-            }
+        
         }
         private void btnLoadRecords_Click(object sender, EventArgs e)
         {
@@ -338,30 +226,31 @@ namespace MCRPrinting
             }
         }
 
-        private void btnStartPrint_Click(object sender, EventArgs e)
+        private  void btnStartPrint_Click(object sender, EventArgs e)
         {
+            
             _print.PrintRecords();
             //PrintRecords();
         }
 
         private void txtSearchresults_TextChanged(object sender, EventArgs e)
         {
-            using (SqlConnection con = new SqlConnection(Constring))
-            {
-                using (SqlCommand cmd = new SqlCommand("SELECT InformantDistrict,InformantTA,InformantVillage,COUNT(*) AS RECORDS FROM ChildDetail where BEN<>'' AND BRN<>'' AND  InformantVillage like '%"+txtSearchresults.Text+ "%' AND RecStatus=4 GROUP BY InformantDistrict,InformantTA,InformantVillage order by InformantDistrict,InformantTA,InformantVillage"))
-                {
-                    using (SqlDataAdapter sda = new SqlDataAdapter())
-                    {
-                        cmd.Connection = con;
-                        sda.SelectCommand = cmd;
-                        using (DataTable dt = new DataTable())
-                        {
-                            sda.Fill(dt);
-                            dataGridView2.DataSource = dt;
-                        }
-                    }
-                }
-            }
+            //using (SqlConnection con = new SqlConnection(Constring))
+            //{
+            //    using (SqlCommand cmd = new SqlCommand("SELECT InformantDistrict,InformantTA,InformantVillage,COUNT(*) AS RECORDS FROM ChildDetail where BEN<>'' AND BRN<>'' AND  InformantVillage like '%"+txtSearchresults.Text+ "%' AND RecStatus=4 GROUP BY InformantDistrict,InformantTA,InformantVillage order by InformantDistrict,InformantTA,InformantVillage"))
+            //    {
+            //        using (SqlDataAdapter sda = new SqlDataAdapter())
+            //        {
+            //            cmd.Connection = con;
+            //            sda.SelectCommand = cmd;
+            //            using (DataTable dt = new DataTable())
+            //            {
+            //                sda.Fill(dt);
+            //                dataGridView2.DataSource = dt;
+            //            }
+            //        }
+            //    }
+            //}
         }
         private void EndPrint(object sender, PrintEventArgs e)
         {

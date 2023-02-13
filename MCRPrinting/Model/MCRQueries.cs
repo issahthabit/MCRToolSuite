@@ -73,7 +73,25 @@ namespace MCRPrinting.Model
                 }
             }
         }
-        public void UpdateRecords(string personid)
+        public void LockRecords(string district, string ta, string village)
+        {
+            using (SqlConnection con = new SqlConnection(connection.GetDBConnection()))
+            {
+                con.Open();
+                string query = "update ChildDetail set RecordLocked = 1, LockedBy = '" + BirthCertificateDetails.username +"' " +
+                    "where InformantDistrict = '"+ district +"' and InformantTA = '"+ ta +"' " +
+                    "and InformantVillage = '"+village+"'";
+                string query1 = "update ChildDetail set RecordLocked = 1, LockedBy = '" + BirthCertificateDetails.username + "'   " +
+                    "where BEN IN (SELECT BEN FROM ChildDetail WHERE InformantDistrict = '" + district + "' and " +
+                    "InformantTA = '" + ta + "' and InformantVillage = '" + village + "' and ben<>'' and brn<>'' and pin<>'')";
+                using (SqlCommand cmd = new SqlCommand(query1, con))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                con.Close();
+            }
+        }
+        public  void UpdateRecords(string personid)
         {
             using (SqlConnection con = new SqlConnection(connection.GetDBConnection()))
             {
@@ -92,7 +110,7 @@ namespace MCRPrinting.Model
             SqlConnection con = new SqlConnection(connection.GetDBConnection());
             try
             {
-                SqlCommand cmd = new SqlCommand("SELECT InformantDistrict,InformantTA,InformantVillage,COUNT(*) AS RECORDS FROM ChildDetail where InformantDistrict='" + District + "' and ben<>'' and brn<>'' and PlaceOfRegistrationId<>'' and Edituser not in " + model.GetAdmins() + " GROUP BY InformantDistrict,InformantTA,InformantVillage order by InformantDistrict,InformantTA,InformantVillage");
+                SqlCommand cmd = new SqlCommand("SELECT InformantDistrict,InformantTA,InformantVillage,COUNT(*) AS RECORDS FROM ChildDetail where InformantDistrict='" + District + "' and ben<>'' and brn<>'' and PlaceOfRegistrationId<>'' and RecordLocked = 0 and pin<>'' and RecordLocked = 0 and RecStatus=4 and Edituser not in " + model.GetAdmins() + " GROUP BY InformantDistrict,InformantTA,InformantVillage order by InformantDistrict,InformantTA,InformantVillage");
                 SqlDataAdapter sda = new SqlDataAdapter();
                 cmd.Connection = con;
                 sda.SelectCommand = cmd;
@@ -112,7 +130,7 @@ namespace MCRPrinting.Model
             SqlConnection con = new SqlConnection(connection.GetDBConnection());
             try
             {
-                SqlCommand cmd = new SqlCommand("SELECT InformantDistrict,InformantTA,InformantVillage,COUNT(*) AS RECORDS FROM ChildDetail where InformantDistrict='" + District + "' AND InformantTA='" + TA + "' and ben<>'' and brn<>'' and PlaceOfRegistrationId<>'' GROUP BY InformantDistrict,InformantTA,InformantVillage order by InformantDistrict,InformantTA,InformantVillage");
+                SqlCommand cmd = new SqlCommand("SELECT InformantDistrict,InformantTA,InformantVillage,COUNT(*) AS RECORDS FROM ChildDetail where InformantDistrict='" + District + "' AND InformantTA='" + TA + "' and ben<>'' and brn<>'' and pin<>'' and RecordLocked = 0 and PlaceOfRegistrationId<>'' GROUP BY InformantDistrict,InformantTA,InformantVillage order by InformantDistrict,InformantTA,InformantVillage");
                 SqlDataAdapter sda = new SqlDataAdapter();
                 cmd.Connection = con;
                 sda.SelectCommand = cmd;
@@ -125,13 +143,14 @@ namespace MCRPrinting.Model
             
             return dt;
         }
+        
         public DataTable LoadrecordstByVillage(string District,string TA, string Village)
         {
             DataTable dt = new DataTable();
             SqlConnection con = new SqlConnection(connection.GetDBConnection());
             try
             {
-                SqlCommand cmd = new SqlCommand("SELECT InformantDistrict,InformantTA,InformantVillage,COUNT(*) AS RECORDS FROM ChildDetail where InformantDistrict='" + District + "' AND  PlaceOfRegistrationId<>'' and InformantTA='" + TA + "' AND InformantVillage='" + Village + "' and ben<>'' and brn<>''  and PlaceOfRegistrationId<>'' GROUP BY InformantDistrict,InformantTA,InformantVillage order by InformantDistrict,InformantTA,InformantVillage");
+                SqlCommand cmd = new SqlCommand("SELECT InformantDistrict,InformantTA,InformantVillage,COUNT(*) AS RECORDS FROM ChildDetail where InformantDistrict='" + District + "' AND  PlaceOfRegistrationId<>'' and InformantTA='" + TA + "' AND InformantVillage='" + Village + "' and ben<>'' and brn<>'' and pin<>'' and RecordLocked = 0 and RecStatus = 4 and PlaceOfRegistrationId<>'' GROUP BY InformantDistrict,InformantTA,InformantVillage order by InformantDistrict,InformantTA,InformantVillage");
                 SqlDataAdapter sda = new SqlDataAdapter();
                 cmd.Connection = con;
                 sda.SelectCommand = cmd;
@@ -320,7 +339,7 @@ namespace MCRPrinting.Model
                 try
                 {
                     con.Open();
-                    using (SqlCommand cmd = new SqlCommand("select ben,Firstname,Othernames,Surname,DateOfBirth,MotherFirstname,MotherOthernames,MotherSurname,FatherFirstname,FatherOthernames,FatherSurname from ChildDetail where InformantTA='" + TA + "' and InformantVillage='" + village + "' and ben<>'' and RecStatus=4 and brn<>''  order by Surname,Firstname asc"))
+                    using (SqlCommand cmd = new SqlCommand("select ben,Firstname,Othernames,Surname,DateOfBirth,MotherFirstname,MotherOthernames,MotherSurname,FatherFirstname,FatherOthernames,FatherSurname from ChildDetail where InformantTA='" + TA + "' and InformantVillage='" + village + "' and ben<>'' and RecStatus = 4 and brn<>'' and RecordLocked = 0 order by Surname,Firstname asc"))
                     {
                         using (SqlDataAdapter sda = new SqlDataAdapter())
                         {

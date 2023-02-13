@@ -80,6 +80,12 @@
     <Compile Include="frmBatchPrint.Designer.cs">
       <DependentUpon>frmBatchPrint.cs</DependentUpon>
     </Compile>
+    <Compile Include="LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoginForm.Designer.cs">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="mcrdataset.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -106,6 +112,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmBatchPrint.resx">
       <DependentUpon>frmBatchPrint.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -151,6 +160,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\mcriconssssss.png" />
+    <None Include="Resources\close_480px.png" />
+    <None Include="Resources\istockphoto-1388085273-612x612.jpg" />
+    <Content Include="Images\AuthoritySignature.gif" />
+    <Content Include="Resources\AuthoritySignature.gif" />
     <Content Include="SqlServerTypes\readme.htm" />
     <Content Include="SqlServerTypes\x64\msvcr120.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -32,8 +32,6 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.Home = new System.Windows.Forms.TabPage();
             this.singlePrint = new System.Windows.Forms.TabPage();
-            this.btnPrint = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.lblPlaceofRegistration = new System.Windows.Forms.Label();
             this.lblChildDateofRegistration = new System.Windows.Forms.Label();
             this.lblNationalityofFather = new System.Windows.Forms.Label();
@@ -58,6 +56,7 @@
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnPrint = new System.Windows.Forms.Button();
             this.txtSearchEntry = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.btnLoadRecords = new System.Windows.Forms.Button();
@@ -70,7 +69,6 @@
             this.panel13 = new System.Windows.Forms.Panel();
             this.btnStartPrint = new System.Windows.Forms.Button();
             this.btnBatchPrint = new System.Windows.Forms.Button();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label44 = new System.Windows.Forms.Label();
             this.lblPrintStatus = new System.Windows.Forms.Label();
@@ -139,20 +137,34 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.label14 = new System.Windows.Forms.Label();
             this.reports = new System.Windows.Forms.TabPage();
-            this.btnExit = new System.Windows.Forms.Button();
             this.panel15 = new System.Windows.Forms.Panel();
+            this.lblUser = new System.Windows.Forms.Label();
             this.label45 = new System.Windows.Forms.Label();
             this.panel16 = new System.Windows.Forms.Panel();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.panel17 = new System.Windows.Forms.Panel();
+            this.panel18 = new System.Windows.Forms.Panel();
+            this.label46 = new System.Windows.Forms.Label();
+            this.label47 = new System.Windows.Forms.Label();
+            this.label48 = new System.Windows.Forms.Label();
+            this.comboBox5 = new System.Windows.Forms.ComboBox();
+            this.comboBox6 = new System.Windows.Forms.ComboBox();
+            this.comboBox7 = new System.Windows.Forms.ComboBox();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
+            this.lblResult = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.btnExit = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.singlePrint.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
             this.batchPrint.SuspendLayout();
             this.panel14.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.resultdataGridView)).BeginInit();
             this.panel13.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.tabAdjudication.SuspendLayout();
@@ -168,6 +180,11 @@
             this.panel4.SuspendLayout();
             this.panel15.SuspendLayout();
             this.panel16.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.panel17.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -175,6 +192,7 @@
             this.tabControl1.Controls.Add(this.Home);
             this.tabControl1.Controls.Add(this.singlePrint);
             this.tabControl1.Controls.Add(this.batchPrint);
+            this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabAdjudication);
             this.tabControl1.Controls.Add(this.reports);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -183,7 +201,7 @@
             this.tabControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(2943, 1726);
+            this.tabControl1.Size = new System.Drawing.Size(2943, 1669);
             this.tabControl1.TabIndex = 2;
             // 
             // Home
@@ -194,7 +212,7 @@
             this.Home.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Home.Name = "Home";
             this.Home.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.Home.Size = new System.Drawing.Size(2923, 1653);
+            this.Home.Size = new System.Drawing.Size(2923, 1596);
             this.Home.TabIndex = 0;
             this.Home.Text = "Home";
             this.Home.UseVisualStyleBackColor = true;
@@ -202,7 +220,6 @@
             // singlePrint
             // 
             this.singlePrint.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.singlePrint.Controls.Add(this.btnPrint);
             this.singlePrint.Controls.Add(this.pictureBox1);
             this.singlePrint.Controls.Add(this.lblPlaceofRegistration);
             this.singlePrint.Controls.Add(this.lblChildDateofRegistration);
@@ -233,32 +250,10 @@
             this.singlePrint.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.singlePrint.Name = "singlePrint";
             this.singlePrint.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.singlePrint.Size = new System.Drawing.Size(2923, 1653);
+            this.singlePrint.Size = new System.Drawing.Size(2923, 1596);
             this.singlePrint.TabIndex = 1;
             this.singlePrint.Text = "Single Print";
             this.singlePrint.UseVisualStyleBackColor = true;
-            // 
-            // btnPrint
-            // 
-            this.btnPrint.Location = new System.Drawing.Point(1049, 1368);
-            this.btnPrint.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
-            this.btnPrint.Name = "btnPrint";
-            this.btnPrint.Size = new System.Drawing.Size(296, 95);
-            this.btnPrint.TabIndex = 72;
-            this.btnPrint.Text = "Print";
-            this.btnPrint.UseVisualStyleBackColor = true;
-            this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Location = new System.Drawing.Point(1531, 279);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 300);
-            this.pictureBox1.Size = new System.Drawing.Size(86, 159);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pictureBox1.TabIndex = 71;
-            this.pictureBox1.TabStop = false;
             // 
             // lblPlaceofRegistration
             // 
@@ -493,6 +488,7 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.Controls.Add(this.btnPrint);
             this.panel1.Controls.Add(this.txtSearchEntry);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.btnLoadRecords);
@@ -502,8 +498,19 @@
             this.panel1.Location = new System.Drawing.Point(3, 2);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(2913, 262);
+            this.panel1.Size = new System.Drawing.Size(2913, 291);
             this.panel1.TabIndex = 2;
+            // 
+            // btnPrint
+            // 
+            this.btnPrint.Location = new System.Drawing.Point(767, 136);
+            this.btnPrint.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.btnPrint.Name = "btnPrint";
+            this.btnPrint.Size = new System.Drawing.Size(229, 95);
+            this.btnPrint.TabIndex = 72;
+            this.btnPrint.Text = "Print";
+            this.btnPrint.UseVisualStyleBackColor = true;
+            this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
             // 
             // txtSearchEntry
             // 
@@ -528,7 +535,7 @@
             this.btnLoadRecords.Location = new System.Drawing.Point(776, 31);
             this.btnLoadRecords.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnLoadRecords.Name = "btnLoadRecords";
-            this.btnLoadRecords.Size = new System.Drawing.Size(237, 141);
+            this.btnLoadRecords.Size = new System.Drawing.Size(237, 74);
             this.btnLoadRecords.TabIndex = 2;
             this.btnLoadRecords.Text = "Load";
             this.btnLoadRecords.UseVisualStyleBackColor = true;
@@ -569,7 +576,7 @@
             this.batchPrint.Location = new System.Drawing.Point(10, 63);
             this.batchPrint.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.batchPrint.Name = "batchPrint";
-            this.batchPrint.Size = new System.Drawing.Size(2923, 1653);
+            this.batchPrint.Size = new System.Drawing.Size(2923, 1596);
             this.batchPrint.TabIndex = 2;
             this.batchPrint.Text = "Batch Print";
             this.batchPrint.UseVisualStyleBackColor = true;
@@ -581,7 +588,7 @@
             this.panel14.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel14.Location = new System.Drawing.Point(0, 407);
             this.panel14.Name = "panel14";
-            this.panel14.Size = new System.Drawing.Size(2919, 1133);
+            this.panel14.Size = new System.Drawing.Size(2919, 1076);
             this.panel14.TabIndex = 74;
             // 
             // dataGridView2
@@ -592,7 +599,7 @@
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowHeadersWidth = 102;
             this.dataGridView2.RowTemplate.Height = 40;
-            this.dataGridView2.Size = new System.Drawing.Size(1468, 1133);
+            this.dataGridView2.Size = new System.Drawing.Size(1468, 1076);
             this.dataGridView2.TabIndex = 74;
             this.dataGridView2.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView2_CellMouseClick);
             // 
@@ -604,7 +611,7 @@
             this.resultdataGridView.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.resultdataGridView.Name = "resultdataGridView";
             this.resultdataGridView.RowHeadersWidth = 102;
-            this.resultdataGridView.Size = new System.Drawing.Size(1158, 1133);
+            this.resultdataGridView.Size = new System.Drawing.Size(1158, 1076);
             this.resultdataGridView.TabIndex = 73;
             // 
             // panel13
@@ -612,7 +619,7 @@
             this.panel13.Controls.Add(this.btnStartPrint);
             this.panel13.Controls.Add(this.btnBatchPrint);
             this.panel13.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel13.Location = new System.Drawing.Point(0, 1540);
+            this.panel13.Location = new System.Drawing.Point(0, 1483);
             this.panel13.Name = "panel13";
             this.panel13.Size = new System.Drawing.Size(2919, 109);
             this.panel13.TabIndex = 73;
@@ -639,17 +646,6 @@
             this.btnBatchPrint.Text = "Print";
             this.btnBatchPrint.UseVisualStyleBackColor = true;
             this.btnBatchPrint.Click += new System.EventHandler(this.btnBatchPrint_Click);
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Location = new System.Drawing.Point(2157, 439);
-            this.pictureBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Padding = new System.Windows.Forms.Padding(0, 0, 0, 300);
-            this.pictureBox2.Size = new System.Drawing.Size(339, 269);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox2.TabIndex = 72;
-            this.pictureBox2.TabStop = false;
             // 
             // panel2
             // 
@@ -808,7 +804,7 @@
             this.tabAdjudication.Location = new System.Drawing.Point(10, 63);
             this.tabAdjudication.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.tabAdjudication.Name = "tabAdjudication";
-            this.tabAdjudication.Size = new System.Drawing.Size(2923, 1653);
+            this.tabAdjudication.Size = new System.Drawing.Size(2923, 1596);
             this.tabAdjudication.TabIndex = 4;
             this.tabAdjudication.Text = "Adjudication";
             // 
@@ -821,7 +817,7 @@
             this.panel8.Location = new System.Drawing.Point(1775, 700);
             this.panel8.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(1148, 718);
+            this.panel8.Size = new System.Drawing.Size(1148, 661);
             this.panel8.TabIndex = 2;
             // 
             // label43
@@ -868,7 +864,7 @@
             this.panel7.Location = new System.Drawing.Point(543, 700);
             this.panel7.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(1159, 718);
+            this.panel7.Size = new System.Drawing.Size(1159, 661);
             this.panel7.TabIndex = 1;
             // 
             // label42
@@ -1070,7 +1066,7 @@
             this.panel6.Controls.Add(this.button2);
             this.panel6.Controls.Add(this.button1);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel6.Location = new System.Drawing.Point(543, 1418);
+            this.panel6.Location = new System.Drawing.Point(543, 1361);
             this.panel6.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(2380, 235);
@@ -1118,7 +1114,7 @@
             this.panel5.Location = new System.Drawing.Point(0, 95);
             this.panel5.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(543, 1558);
+            this.panel5.Size = new System.Drawing.Size(543, 1501);
             this.panel5.TabIndex = 0;
             // 
             // button4
@@ -1377,40 +1373,38 @@
             this.reports.Location = new System.Drawing.Point(10, 63);
             this.reports.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.reports.Name = "reports";
-            this.reports.Size = new System.Drawing.Size(2923, 1653);
+            this.reports.Size = new System.Drawing.Size(2923, 1596);
             this.reports.TabIndex = 3;
             this.reports.Text = "Reports";
             this.reports.UseVisualStyleBackColor = true;
             // 
-            // btnExit
-            // 
-            this.btnExit.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnExit.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnExit.ForeColor = System.Drawing.Color.Red;
-            this.btnExit.Location = new System.Drawing.Point(2834, 0);
-            this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(109, 65);
-            this.btnExit.TabIndex = 73;
-            this.btnExit.Text = "X";
-            this.btnExit.UseVisualStyleBackColor = true;
-            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
-            // 
             // panel15
             // 
+            this.panel15.Controls.Add(this.lblUser);
+            this.panel15.Controls.Add(this.pictureBox3);
             this.panel15.Controls.Add(this.label45);
             this.panel15.Controls.Add(this.btnExit);
             this.panel15.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel15.Location = new System.Drawing.Point(0, 0);
             this.panel15.Name = "panel15";
-            this.panel15.Size = new System.Drawing.Size(2943, 65);
+            this.panel15.Size = new System.Drawing.Size(2943, 122);
             this.panel15.TabIndex = 3;
+            // 
+            // lblUser
+            // 
+            this.lblUser.AutoSize = true;
+            this.lblUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUser.Location = new System.Drawing.Point(2174, 61);
+            this.lblUser.Name = "lblUser";
+            this.lblUser.Size = new System.Drawing.Size(211, 46);
+            this.lblUser.TabIndex = 76;
+            this.lblUser.Text = "Username";
             // 
             // label45
             // 
             this.label45.AutoSize = true;
-            this.label45.Dock = System.Windows.Forms.DockStyle.Left;
             this.label45.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label45.Location = new System.Drawing.Point(0, 0);
+            this.label45.Location = new System.Drawing.Point(172, 31);
             this.label45.Name = "label45";
             this.label45.Size = new System.Drawing.Size(365, 54);
             this.label45.TabIndex = 74;
@@ -1420,10 +1414,174 @@
             // 
             this.panel16.Controls.Add(this.tabControl1);
             this.panel16.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel16.Location = new System.Drawing.Point(0, 65);
+            this.panel16.Location = new System.Drawing.Point(0, 122);
             this.panel16.Name = "panel16";
-            this.panel16.Size = new System.Drawing.Size(2943, 1726);
+            this.panel16.Size = new System.Drawing.Size(2943, 1669);
             this.panel16.TabIndex = 4;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.panel18);
+            this.tabPage1.Controls.Add(this.panel17);
+            this.tabPage1.Location = new System.Drawing.Point(10, 63);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(2923, 1596);
+            this.tabPage1.TabIndex = 5;
+            this.tabPage1.Text = "Quality Check";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // panel17
+            // 
+            this.panel17.BackColor = System.Drawing.Color.White;
+            this.panel17.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel17.Controls.Add(this.lblResult);
+            this.panel17.Controls.Add(this.button8);
+            this.panel17.Controls.Add(this.button7);
+            this.panel17.Controls.Add(this.comboBox7);
+            this.panel17.Controls.Add(this.comboBox6);
+            this.panel17.Controls.Add(this.comboBox5);
+            this.panel17.Controls.Add(this.label48);
+            this.panel17.Controls.Add(this.label47);
+            this.panel17.Controls.Add(this.label46);
+            this.panel17.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel17.Location = new System.Drawing.Point(3, 3);
+            this.panel17.Name = "panel17";
+            this.panel17.Size = new System.Drawing.Size(2917, 362);
+            this.panel17.TabIndex = 0;
+            // 
+            // panel18
+            // 
+            this.panel18.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel18.Location = new System.Drawing.Point(3, 365);
+            this.panel18.Name = "panel18";
+            this.panel18.Size = new System.Drawing.Size(2917, 1228);
+            this.panel18.TabIndex = 1;
+            // 
+            // label46
+            // 
+            this.label46.AutoSize = true;
+            this.label46.Location = new System.Drawing.Point(24, 68);
+            this.label46.Name = "label46";
+            this.label46.Size = new System.Drawing.Size(143, 46);
+            this.label46.TabIndex = 0;
+            this.label46.Text = "District";
+            // 
+            // label47
+            // 
+            this.label47.AutoSize = true;
+            this.label47.Location = new System.Drawing.Point(743, 68);
+            this.label47.Name = "label47";
+            this.label47.Size = new System.Drawing.Size(71, 46);
+            this.label47.TabIndex = 1;
+            this.label47.Text = "TA";
+            // 
+            // label48
+            // 
+            this.label48.AutoSize = true;
+            this.label48.Location = new System.Drawing.Point(1495, 68);
+            this.label48.Name = "label48";
+            this.label48.Size = new System.Drawing.Size(140, 46);
+            this.label48.TabIndex = 2;
+            this.label48.Text = "Village";
+            // 
+            // comboBox5
+            // 
+            this.comboBox5.FormattingEnabled = true;
+            this.comboBox5.Location = new System.Drawing.Point(173, 65);
+            this.comboBox5.Name = "comboBox5";
+            this.comboBox5.Size = new System.Drawing.Size(472, 54);
+            this.comboBox5.TabIndex = 3;
+            // 
+            // comboBox6
+            // 
+            this.comboBox6.FormattingEnabled = true;
+            this.comboBox6.Location = new System.Drawing.Point(851, 68);
+            this.comboBox6.Name = "comboBox6";
+            this.comboBox6.Size = new System.Drawing.Size(495, 54);
+            this.comboBox6.TabIndex = 4;
+            // 
+            // comboBox7
+            // 
+            this.comboBox7.FormattingEnabled = true;
+            this.comboBox7.Location = new System.Drawing.Point(1699, 68);
+            this.comboBox7.Name = "comboBox7";
+            this.comboBox7.Size = new System.Drawing.Size(554, 54);
+            this.comboBox7.TabIndex = 5;
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(50, 263);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(235, 91);
+            this.button7.TabIndex = 6;
+            this.button7.Text = "Cancel";
+            this.button7.UseVisualStyleBackColor = true;
+            // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(1983, 263);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(270, 91);
+            this.button8.TabIndex = 7;
+            this.button8.Text = "Ok";
+            this.button8.UseVisualStyleBackColor = true;
+            // 
+            // lblResult
+            // 
+            this.lblResult.AutoSize = true;
+            this.lblResult.Location = new System.Drawing.Point(968, 178);
+            this.lblResult.Name = "lblResult";
+            this.lblResult.Size = new System.Drawing.Size(133, 46);
+            this.lblResult.TabIndex = 8;
+            this.lblResult.Text = "Result";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(1448, 331);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 300);
+            this.pictureBox1.Size = new System.Drawing.Size(86, 159);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBox1.TabIndex = 71;
+            this.pictureBox1.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Location = new System.Drawing.Point(2157, 439);
+            this.pictureBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Padding = new System.Windows.Forms.Padding(0, 0, 0, 300);
+            this.pictureBox2.Size = new System.Drawing.Size(339, 269);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox2.TabIndex = 72;
+            this.pictureBox2.TabStop = false;
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Image = global::MCRPrinting.Properties.Resources.mcriconssssss;
+            this.pictureBox3.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(132, 113);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox3.TabIndex = 75;
+            this.pictureBox3.TabStop = false;
+            // 
+            // btnExit
+            // 
+            this.btnExit.BackgroundImage = global::MCRPrinting.Properties.Resources.close_480px;
+            this.btnExit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnExit.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExit.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExit.ForeColor = System.Drawing.Color.Transparent;
+            this.btnExit.Location = new System.Drawing.Point(2792, 0);
+            this.btnExit.Name = "btnExit";
+            this.btnExit.Size = new System.Drawing.Size(151, 122);
+            this.btnExit.TabIndex = 73;
+            this.btnExit.UseVisualStyleBackColor = true;
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
             // Form1
             // 
@@ -1444,7 +1602,6 @@
             this.tabControl1.ResumeLayout(false);
             this.singlePrint.ResumeLayout(false);
             this.singlePrint.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.batchPrint.ResumeLayout(false);
@@ -1452,7 +1609,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.resultdataGridView)).EndInit();
             this.panel13.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
@@ -1477,6 +1633,12 @@
             this.panel15.ResumeLayout(false);
             this.panel15.PerformLayout();
             this.panel16.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.panel17.ResumeLayout(false);
+            this.panel17.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1596,6 +1758,20 @@
         private System.Windows.Forms.Panel panel15;
         private System.Windows.Forms.Panel panel16;
         private System.Windows.Forms.Label label45;
+        private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.Label lblUser;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.Panel panel17;
+        private System.Windows.Forms.Panel panel18;
+        private System.Windows.Forms.Label label48;
+        private System.Windows.Forms.Label label47;
+        private System.Windows.Forms.Label label46;
+        private System.Windows.Forms.ComboBox comboBox7;
+        private System.Windows.Forms.ComboBox comboBox6;
+        private System.Windows.Forms.ComboBox comboBox5;
+        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Label lblResult;
     }
 }
 
